@@ -1,0 +1,23 @@
+---
+const path = Astro.url.pathname;
+const items = [
+  ["/approach/", "Approach"],
+  ["/practice/", "Practice"],
+  ["/answers/", "Answers"],
+];
+const isOn = (href: string) => path === href || path.startsWith(href);
+---
+<header class="nav">
+  <div class="wrap">
+    <a href="/" aria-label="Gamut Purpose Partners, home">
+      <img src="/gamut-logo.png" alt="Gamut Purpose Partners" width="500" height="269" />
+    </a>
+    <nav>
+      {items.map(([href, label]) => (
+        <a href={href} aria-current={isOn(href) ? "page" : undefined}
+           style={isOn(href) ? "color:var(--ink);border-bottom:2px solid var(--coral);padding-bottom:3px" : ""}>{label}</a>
+      ))}
+      <a class="btn btn-ink btn-sm" href="/#session-zero">Start session zero</a>
+    </nav>
+  </div>
+</header>

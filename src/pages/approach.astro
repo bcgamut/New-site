@@ -1,0 +1,108 @@
+---
+import Base from "../layouts/Base.astro";
+import { ORG, SERVICES, BANDS } from "../content/practice";
+import { PILLARS, PHASES, FACILITATION, FRAMEWORK, PRICING_STANCE } from "../content/approach";
+---
+<Base
+  title="Approach — Gamut Purpose Partners"
+  description="How Gamut runs strategy: five pillars, three phases, and a commitment to inclusive facilitation. Because how you plan shapes what strategy emerges, and who owns it."
+>
+  <section class="band" style="padding-bottom:0">
+    <div class="wrap">
+      <p class="eyebrow" style="--tick:var(--coral)">Approach</p>
+      <h1 style="font-size:clamp(38px,6vw,68px);margin:18px 0 0;max-width:16ch">How we plan shapes what emerges.</h1>
+      <p class="lede">We believe how we go about strategic planning shapes what strategy emerges &mdash; and who feels ownership of it. Which is another way of saying every strategy project is also a culture project.</p>
+    </div>
+  </section>
+
+  <section class="band">
+    <div class="wrap">
+      <p class="eyebrow" style="--tick:var(--gold)">Five pillars</p>
+      <h2 class="sec-h">What we bring to every engagement.</h2>
+      <div class="pillars">
+        {PILLARS.map((p) => (
+          <div class="pillar">
+            <span class="n" style={`color:var(--${p.token})`}>{p.n}</span>
+            <div>
+              <h3>{p.name}</h3>
+              <p>{p.body}</p>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="band" style="background:var(--sand);border-block:1px solid var(--border-subtle)">
+    <div class="wrap">
+      <p class="eyebrow" style="--tick:var(--electric)">The work</p>
+      <h2 class="sec-h">Three phases, and what you hold at the end of each.</h2>
+      <div class="phases">
+        {PHASES.map((ph) => (
+          <div class="phase">
+            <span class="edge" style={`background:var(--${ph.token})`}></span>
+            <h3>{ph.name}</h3>
+            <p style="font-size:15.5px;line-height:1.6;color:var(--text-muted)">{ph.body}</p>
+            <ul>{ph.deliverables.map((d) => <li>{d}</li>)}</ul>
+          </div>
+        ))}
+      </div>
+      <p class="meta" style="margin-top:28px">Typically six to nine months &middot; Compressible to about ninety days when a deadline demands it</p>
+    </div>
+  </section>
+
+  <section class="band">
+    <div class="wrap">
+      <p class="eyebrow" style="--tick:var(--indigo)">The framework</p>
+      <h2 class="sec-h">{FRAMEWORK.name} &mdash; {FRAMEWORK.expansion}.</h2>
+      <p class="lede" style="margin-top:18px">A one-page strategy framework. It works for nonprofits because it forces two things most plans avoid: naming the obstacles out loud, and committing to measures before the work starts.</p>
+      <div class="grid4">
+        {FRAMEWORK.why.map(([name, body], i) => (
+          <div class="card">
+            <span class="edge" style={`background:var(--${["coral", "gold", "electric", "teal"][i]})`}></span>
+            <h3>{name}</h3>
+            <p>{body}</p>
+          </div>
+        ))}
+      </div>
+      <p style="margin-top:26px"><a href="/answers/v2mom-for-nonprofits/">More on whether V2MOM fits your organisation &rarr;</a></p>
+    </div>
+  </section>
+
+  <section class="band dark">
+    <div class="wrap">
+      <p class="eyebrow" style="--tick:var(--coral)">Inclusive facilitation</p>
+      <h2 class="sec-h" style="color:var(--white)">Six commitments that make a room safe enough to disagree in.</h2>
+      <div class="vals">
+        {FACILITATION.map((f) => (
+          <div class="val">
+            <h3>{f.name}</h3>
+            <p>{f.body}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="band">
+    <div class="wrap">
+      <p class="eyebrow" style="--tick:var(--teal)">Engagements</p>
+      <h2 class="sec-h">Three ways this usually starts.</h2>
+      <div class="grid3">
+        {SERVICES.map((s, i) => (
+          <div class="card" id={s.slug}>
+            <span class="edge" style={`background:var(--${BANDS.find((b) => b.key === s.signals[0])?.token ?? "coral"})`}></span>
+            <h3>{s.name}</h3>
+            <p>{s.summary}</p>
+            <p style="font-family:var(--font-mono);font-size:11.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--stone-400);margin-top:16px">For: {s.forWhom}</p>
+          </div>
+        ))}
+      </div>
+      <p class="lede" style="margin-top:40px">{PRICING_STANCE}</p>
+      <div style="display:flex;gap:12px;flex-wrap:wrap;margin-top:28px">
+        <a class="btn btn-accent btn-lg" href="/#session-zero">Start session zero</a>
+        <a class="btn btn-outline btn-lg" href={`mailto:${ORG.email}`}>Book thirty minutes</a>
+      </div>
+    </div>
+  </section>
+</Base>

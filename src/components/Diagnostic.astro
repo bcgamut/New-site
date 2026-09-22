@@ -1,0 +1,406 @@
+---
+import { BANDS } from "../content/practice";
+---
+<section class="hero" id="session-zero" data-phase="idle">
+  <div class="wrap">
+    <p class="eyebrow" style="--tick:var(--coral)">Session zero &middot; No cost &middot; Six minutes</p>
+    <h1>Tell us what&rsquo;s<br />not <em>moving</em>.</h1>
+    <p class="lede">
+      Six minutes with the Gamut diagnostic and you&rsquo;ll leave with a read on where your
+      institution is stuck &mdash; and the three questions to put to your board.
+      <b>No form. No call. No cost.</b>
+    </p>
+
+    <div class="ask" id="ask">
+      <p class="ask-q">So &mdash; what&rsquo;s the hardest thing about your institution right now?</p>
+      <div class="field">
+        <label for="seed" class="vh">What is the hardest thing about your institution right now?</label>
+        <textarea id="seed" rows="1" placeholder="Say it the way you&rsquo;d say it to a colleague you trust."></textarea>
+        <button class="btn btn-accent" id="startBtn" type="button">Begin</button>
+      </div>
+      <div class="starters" id="starters">
+        <button class="chip" type="button"><i class="chip-tick" style="background:var(--coral)"></i>Our board says yes to everything and nothing changes.</button>
+        <button class="chip" type="button"><i class="chip-tick" style="background:var(--gold)"></i>We&rsquo;re ninety years old and nobody under forty knows us.</button>
+        <button class="chip" type="button"><i class="chip-tick" style="background:var(--electric)"></i>The strategic plan is beautiful. It&rsquo;s also in a drawer.</button>
+        <button class="chip" type="button"><i class="chip-tick" style="background:var(--teal)"></i>Two of our programs are the mission. The other nine are history.</button>
+      </div>
+      <p class="meta">Your answers are sent once, to generate your map. Nothing is stored.</p>
+    </div>
+  </div>
+</section>
+
+<section class="session" id="session" hidden>
+  <div class="wrap">
+    <div class="session-head">
+      <div>
+        <p class="eyebrow" style="--tick:var(--coral)">Session zero in progress</p>
+        <h2 style="font-size:clamp(24px,3.2vw,34px);margin-top:12px">Reading your gamut</h2>
+      </div>
+      <div class="progress" id="progress" aria-hidden="true">
+        {BANDS.map((b) => <i data-band={b.key}></i>)}
+      </div>
+    </div>
+    <div class="thread" id="thread" aria-live="polite"></div>
+    <div id="answerBox" style="max-width:760px">
+      <div class="field">
+        <label for="answer" class="vh">Your answer</label>
+        <textarea id="answer" rows="1" placeholder="Your answer&hellip;"></textarea>
+        <button class="btn btn-accent" id="sendBtn" type="button">Send</button>
+      </div>
+      <div class="starters" id="answerChips"></div>
+    </div>
+    <p class="notice" id="fallbackNote" hidden></p>
+  </div>
+</section>
+
+<section class="map" id="map" hidden>
+  <div class="wrap">
+    <div class="map-card">
+      <p class="eyebrow" style="--tick:var(--coral)">Your inertia map</p>
+      <h2 id="mapHeadline">&nbsp;</h2>
+      <p class="read" id="mapRead"></p>
+      <div class="chart" id="chart" role="img" aria-label="Institutional strength across the five Gamut bands">
+        <div class="chart-scale"><span>Band</span><span><span>Stuck</span><span>Holding</span><span>Strong</span></span></div>
+      </div>
+      <div class="board">
+        <p class="eyebrow" style="--tick:var(--gold);color:var(--text-on-dark-muted)">Take these to your next board meeting</p>
+        <h3>Three questions nobody is asking.</h3>
+        <ol id="boardQs"></ol>
+      </div>
+      <div class="next">
+        <div>
+          <p class="eyebrow" style="--tick:var(--electric)">Where Gamut would start</p>
+          <h3 id="engName" style="font-size:22px;margin:12px 0 8px"></h3>
+          <p id="engWhy" style="font-size:16px;color:var(--text-muted);max-width:52ch"></p>
+        </div>
+        <div class="map-actions">
+          <button class="btn btn-outline" id="saveBtn" type="button">Save the map</button>
+          <a class="btn btn-accent" href="mailto:hello@gamutpurpose.com?subject=Session%20zero%20follow-up">Book thirty minutes</a>
+        </div>
+      </div>
+      <p class="notice" id="mapNote" hidden style="margin-top:24px"></p>
+    </div>
+    <div style="margin-top:22px">
+      <button class="btn btn-ghost btn-sm" id="restartBtn" type="button">Start a new session</button>
+    </div>
+  </div>
+</section>
+
+<script>
+  const BANDS = [
+    { key: "purpose",   name: "Purpose",   color: "var(--coral)" },
+    { key: "alignment", name: "Alignment", color: "var(--gold)" },
+    { key: "momentum",  name: "Momentum",  color: "var(--electric)" },
+    { key: "relevance", name: "Relevance", color: "var(--indigo)" },
+    { key: "capacity",  name: "Capacity",  color: "var(--teal)" },
+  ];
+  const TOTAL_ANSWERS = 4;
+  const OPENER = "What's the hardest thing about your institution right now?";
+
+  /* Scripted fallback so the page still works if the API is unreachable. */
+  const SCRIPT = [
+    { question: "Who else in the building would say that out loud?",
+      chips: ["Almost no one", "My deputy, quietly", "Everyone but the board"] },
+    { question: "When did you last retire something — a programme, a message, a ritual?",
+      chips: ["We haven't, in years", "We tried and it came back", "Last year, and it went fine"] },
+    { question: "What would have to be true a year from now for you to call this fixed?",
+      chips: ["One clear answer to what we do", "A board that decides", "Funding that isn't a scramble"] },
+  ];
+  const SIGNALS = {
+    purpose:   [/mission statement/i, /why we exist/i, /identity/i, /purpose/i, /everything to everyone/i, /too many programs?/i, /what we (actually )?do/i],
+    alignment: [/board/i, /consensus/i, /disagree/i, /leadership/i, /exec/i, /silo/i, /turf/i, /yes to everything/i, /committee/i],
+    momentum:  [/stuck/i, /slow/i, /stall/i, /drawer/i, /nothing (changes|happens|moves)/i, /inertia/i, /bureaucra/i, /can'?t move/i],
+    relevance: [/under (forty|thirty|40|30)/i, /young/i, /gen z/i, /nobody knows|no one knows/i, /relevan/i, /audience/i, /donor/i, /ninety|90 years/i],
+    capacity:  [/stretched/i, /burn(ed|t)? out/i, /capacity/i, /staff/i, /turnover/i, /budget/i, /fund(ing|raising)/i, /reserves/i],
+  };
+  const ENGAGEMENTS = {
+    purpose:   { name: "Purpose distillation", why: "Your range is fine. What you can't do yet is say it in one sentence that survives a board meeting." },
+    alignment: { name: "Facilitated board or executive session", why: "This isn't a strategy problem. It's a room that has never been asked to choose out loud." },
+    momentum:  { name: "Overcoming Organizational Inertia workshop", why: "You know what to do. The work is dislodging what's holding it, and that's a session, not a memo." },
+    relevance: { name: "Purpose distillation", why: "A new generation can't find a reason to care until the reason is stated in their language." },
+    capacity:  { name: "Facilitated board or executive session", why: "Capacity questions get solved by deciding what to stop. That decision needs a room and a facilitator." },
+  };
+
+  const $ = (id) => document.getElementById(id);
+  const hero = $("session-zero"), sessionEl = $("session"), mapEl = $("map");
+  const seed = $("seed"), startBtn = $("startBtn"), starters = $("starters");
+  const thread = $("thread"), answer = $("answer"), sendBtn = $("sendBtn");
+  const answerBox = $("answerBox"), answerChips = $("answerChips"), progress = $("progress");
+  const state = { answers: [], questions: [], map: null, live: null, busy: false };
+
+  const esc = (s) => String(s).replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
+  const grow = (el) => { el.style.height = "auto"; el.style.height = Math.min(el.scrollHeight, 180) + "px"; };
+  [seed, answer].forEach((el) => {
+    el.addEventListener("input", () => grow(el));
+    el.addEventListener("keydown", (e) => {
+      if (e.key === "Enter" && !e.shiftKey) { e.preventDefault(); (el === seed ? startBtn : sendBtn).click(); }
+    });
+  });
+
+  starters.addEventListener("click", (e) => {
+    const chip = e.target.closest(".chip");
+    if (!chip) return;
+    seed.value = chip.textContent.trim(); grow(seed); startBtn.click();
+  });
+
+  /** Turns for the API: starts on user, alternates, ends on user. */
+  function buildTurns() {
+    const turns = [{ role: "user", content: `Our opening question: "${OPENER}"\n\nTheir answer: ${state.answers[0]}` }];
+    for (let i = 1; i < state.answers.length; i++) {
+      turns.push({ role: "assistant", content: state.questions[i] });
+      turns.push({ role: "user", content: state.answers[i] });
+    }
+    return turns;
+  }
+
+  async function callApi(mode) {
+    const res = await fetch("/api/session", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ mode, turns: buildTurns() }),
+    });
+    if (!res.ok) throw new Error(String(res.status));
+    return res.json();
+  }
+
+  function addTurn(kind, who, text) {
+    const div = document.createElement("div");
+    div.className = "turn " + (kind === "q" ? "turn-q" : "turn-a");
+    div.innerHTML = `<span class="who">${esc(who)}</span>${esc(text)}`;
+    thread.appendChild(div);
+  }
+  function thinking(label) {
+    const div = document.createElement("div");
+    div.className = "turn thinking";
+    div.innerHTML = `<i></i>${esc(label)}`;
+    thread.appendChild(div);
+    return div;
+  }
+  function paintProgress() {
+    const lit = Math.round((state.answers.length / TOTAL_ANSWERS) * BANDS.length);
+    [...progress.children].forEach((el, i) => { el.style.background = i < lit ? BANDS[i].color : "var(--stone-200)"; });
+  }
+  function renderChips(list) {
+    answerChips.innerHTML = "";
+    (list || []).slice(0, 4).forEach((t, i) => {
+      const b = document.createElement("button");
+      b.type = "button"; b.className = "chip";
+      b.innerHTML = `<i class="chip-tick" style="background:${BANDS[i % BANDS.length].color}"></i>${esc(t)}`;
+      b.addEventListener("click", () => { answer.value = t; grow(answer); sendBtn.click(); });
+      answerChips.appendChild(b);
+    });
+  }
+  function goFallback(msg) {
+    if (state.live === false) return;
+    state.live = false;
+    const n = $("fallbackNote"); n.hidden = false; n.textContent = msg;
+  }
+
+  async function nextQuestion() {
+    if (state.answers.length >= TOTAL_ANSWERS) return buildMap();
+    const idx = state.answers.length - 1;
+    const t = thinking("Reading that");
+    answerBox.hidden = true;
+
+    let q = null;
+    if (state.live !== false) {
+      try {
+        const out = await callApi("question");
+        if (out && typeof out.question === "string" && out.question.trim()) {
+          q = { question: out.question.trim(), chips: Array.isArray(out.chips) ? out.chips.map(String) : [] };
+          state.live = true;
+        }
+      } catch {
+        goFallback("Running the scripted diagnostic — the live read is unavailable right now.");
+      }
+    }
+    if (!q) q = SCRIPT[Math.min(idx, SCRIPT.length - 1)];
+
+    t.remove();
+    state.questions.push(q.question);
+    addTurn("q", "Gamut", q.question);
+    renderChips(q.chips);
+    answerBox.hidden = false;
+    answer.value = ""; grow(answer); answer.focus();
+  }
+
+  function heuristicMap() {
+    const text = state.answers.join(" \n ");
+    const weight = Math.min(6, Math.floor(text.length / 90));
+    const scored = BANDS.map((b, i) => {
+      const hits = SIGNALS[b.key].reduce((n, re) => n + (re.test(text) ? 1 : 0), 0);
+      const jitter = ((text.length + i * 37) % 7) - 3;
+      return { key: b.key, score: Math.max(16, Math.min(88, 78 - hits * 13 - weight + jitter)) };
+    });
+    const ranked = scored.slice().sort((a, b) => a.score - b.score);
+    const NOTES = [
+      "The band you kept returning to, unprompted.",
+      "Bending around the band below it.",
+      "Under strain, but not the root of this.",
+      "Holding. Not what's stopping you.",
+      "Your strongest range right now.",
+    ];
+    ranked.forEach((b, i) => { b.note = NOTES[i]; });
+    const weakest = ranked[0];
+    const label = BANDS.find((b) => b.key === weakest.key).name.toLowerCase();
+    const second = BANDS.find((b) => b.key === ranked[1].key).name.toLowerCase();
+    return {
+      headline: `The weight is on ${label}.`,
+      read: `Across four answers, ${label} is the band you returned to without being asked, and ${second} is bending around it. That pattern usually means the problem has already been diagnosed inside the building. What's missing is a room where someone is allowed to say so and decide.`,
+      bands: scored.map((b) => ({ key: b.key, score: b.score, note: b.note })),
+      boardQuestions: [
+        "What have we refused to stop doing, and who actually decided that?",
+        "If we had to explain ourselves to someone who has never heard of us, what would we cut?",
+        "What is the first thing that would break if we grew twice as fast next year?",
+      ],
+      engagement: ENGAGEMENTS[weakest.key],
+    };
+  }
+
+  async function buildMap() {
+    answerBox.hidden = true;
+    const t = thinking("Reading your gamut");
+    let data = null;
+    if (state.live !== false) {
+      try {
+        const out = await callApi("map");
+        if (out && Array.isArray(out.bands) && out.bands.length) data = out;
+      } catch {
+        goFallback("Scripted read — the live diagnostic is unavailable right now.");
+      }
+    }
+    const live = !!data;
+    if (!data) data = heuristicMap();
+    t.remove();
+    renderMap(data, live);
+  }
+
+  function renderMap(data, live) {
+    $("mapHeadline").textContent = data.headline || "Your inertia map";
+    $("mapRead").textContent = data.read || "";
+    const chart = $("chart");
+    [...chart.querySelectorAll(".row,.rowline")].forEach((n) => n.remove());
+    const byKey = Object.create(null);
+    (data.bands || []).forEach((b) => { if (b && b.key) byKey[String(b.key).toLowerCase()] = b; });
+
+    const bars = [];
+    BANDS.forEach((band) => {
+      const found = byKey[band.key] || { score: 50, note: "" };
+      const score = Math.max(0, Math.min(100, Math.round(Number(found.score) || 0)));
+      const row = document.createElement("div");
+      row.className = "row";
+      row.innerHTML =
+        `<span class="name"><b style="background:${band.color}"></b>${band.name}</span>` +
+        `<span style="display:flex;gap:14px;align-items:center">` +
+        `<span class="track" style="flex:1"><span class="bar" style="background:${band.color}"></span></span>` +
+        `<span class="val">${score}</span></span>`;
+      chart.appendChild(row);
+      if (found.note) {
+        const line = document.createElement("p");
+        line.className = "rowline"; line.textContent = String(found.note);
+        chart.appendChild(line);
+      }
+      bars.push([row.querySelector(".bar"), score]);
+    });
+    requestAnimationFrame(() => bars.forEach(([el, s]) => { el.style.width = s + "%"; }));
+
+    const ol = $("boardQs"); ol.innerHTML = "";
+    (data.boardQuestions || []).slice(0, 3).forEach((q) => {
+      const li = document.createElement("li");
+      li.appendChild(document.createTextNode(String(q)));
+      ol.appendChild(li);
+    });
+    const eng = data.engagement || {};
+    $("engName").textContent = eng.name || "Facilitated board or executive session";
+    $("engWhy").textContent = eng.why || "";
+
+    const note = $("mapNote");
+    note.hidden = live;
+    if (!live) note.textContent = "This read was generated in your browser from keyword patterns. The live version writes the whole map from what you actually said.";
+
+    state.map = data;
+    sessionEl.hidden = true;
+    mapEl.hidden = false;
+    mapEl.scrollIntoView({ behavior: "smooth", block: "start" });
+  }
+
+  function toMarkdown(d) {
+    const line = (b) => {
+      const band = BANDS.find((x) => x.key === b.key) || { name: b.key };
+      const n = Math.max(0, Math.min(100, Math.round(Number(b.score) || 0)));
+      const filled = Math.round(n / 5);
+      return `| ${band.name.padEnd(10)} | ${String(n).padStart(3)} | ${"#".repeat(filled)}${"-".repeat(20 - filled)} | ${b.note || ""} |`;
+    };
+    return [
+      `# Inertia Map — ${d.headline || ""}`, "",
+      "Generated in session zero at gamutpurpose.com", "",
+      "## The read", "", d.read || "", "",
+      "## Your gamut", "",
+      "| Band | Score | | Note |", "| --- | ---: | --- | --- |",
+      (d.bands || []).map(line).join("\n"), "",
+      "## Three questions for your next board meeting", "",
+      (d.boardQuestions || []).map((q, i) => `${i + 1}. ${q}`).join("\n"), "",
+      "## Where Gamut would start", "",
+      `**${(d.engagement || {}).name || ""}** — ${(d.engagement || {}).why || ""}`, "",
+      "---", "",
+      "Gamut Purpose Partners — strategy advisers to nonprofits and cause-minded companies.",
+      "Book thirty minutes: hello@gamutpurpose.com", "",
+      "## What you said", "",
+      state.answers.map((a, i) => `> ${state.questions[i] ? state.questions[i] + "\n> \n> " : ""}${a}`).join("\n\n"), "",
+    ].join("\n");
+  }
+
+  $("saveBtn").addEventListener("click", () => {
+    if (!state.map) return;
+    const blob = new Blob([toMarkdown(state.map)], { type: "text/markdown" });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url; a.download = "gamut-inertia-map.md";
+    document.body.appendChild(a); a.click(); a.remove();
+    setTimeout(() => URL.revokeObjectURL(url), 1000);
+  });
+
+  async function submit(text) {
+    if (state.busy) return;
+    const v = String(text || "").trim();
+    if (!v) return;
+    state.busy = true;
+    startBtn.disabled = sendBtn.disabled = true;
+    state.answers.push(v);
+    addTurn("a", "You", v);
+    answerChips.innerHTML = "";
+    paintProgress();
+    try { await nextQuestion(); }
+    finally { state.busy = false; startBtn.disabled = sendBtn.disabled = false; }
+  }
+
+  startBtn.addEventListener("click", () => {
+    const v = seed.value.trim();
+    if (!v) { seed.focus(); return; }
+    hero.hidden = true; sessionEl.hidden = false; mapEl.hidden = true;
+    thread.innerHTML = "";
+    state.answers = []; state.questions = [OPENER]; state.map = null;
+    addTurn("q", "Gamut", OPENER);
+    sessionEl.scrollIntoView({ behavior: "smooth", block: "start" });
+    submit(v);
+  });
+
+  sendBtn.addEventListener("click", () => {
+    const v = answer.value.trim();
+    if (!v) { answer.focus(); return; }
+    answer.value = ""; grow(answer);
+    submit(v);
+  });
+
+  $("restartBtn").addEventListener("click", () => {
+    mapEl.hidden = true; sessionEl.hidden = true; hero.hidden = false;
+    seed.value = ""; grow(seed);
+    state.answers = []; state.questions = []; state.map = null; state.live = null;
+    $("fallbackNote").hidden = true;
+    paintProgress();
+    hero.scrollIntoView({ behavior: "smooth", block: "start" });
+    seed.focus();
+  });
+
+  paintProgress();
+</script>

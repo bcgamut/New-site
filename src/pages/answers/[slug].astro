@@ -1,0 +1,65 @@
+---
+import Base from "../../layouts/Base.astro";
+import { ANSWERS } from "../../content/answers";
+import { BANDS, ORG, SERVICES } from "../../content/practice";
+import { faqSchema } from "../../lib/schema";
+
+export function getStaticPaths() {
+  return ANSWERS.map((answer) => ({ params: { slug: answer.slug }, props: { answer } }));
+}
+
+const { answer } = Astro.props;
+const band = BANDS.find((b) => b.key === answer.band);
+const service = SERVICES.find((s) => s.name === answer.service);
+const others = ANSWERS.filter((a) => a.slug !== answer.slug).slice(0, 3);
+---
+<Base
+  title={`${answer.question} — Gamut Purpose Partners`}
+  description={answer.short}
+  schemas={[faqSchema([{ q: answer.question, a: answer.short }])]}
+>
+  <article class="band" style="padding-bottom:var(--space-8)">
+    <div class="wrap">
+      <p class="eyebrow" style={`--tick:var(--${band?.token ?? "coral"})`}>
+        <a href="/answers/" style="color:inherit">Answers</a>
+      </p>
+      <h1 style="font-size:clamp(32px,5vw,58px);margin:18px 0 0;max-width:20ch">{answer.question}</h1>
+
+      <p class="answer-lead">{answer.short}</p>
+
+      <div class="prose">
+        {answer.body.map((p) => <p>{p}</p>)}
+      </div>
+
+      {band && (
+        <aside style="margin-top:56px;padding:28px;background:var(--sand);border:1px solid var(--border-subtle);border-radius:var(--radius-md);max-width:66ch">
+          <p class="eyebrow" style={`--tick:var(--${band.token})`}>Band: {band.name}</p>
+          <p style="font-family:var(--font-serif);font-style:italic;font-size:19px;line-height:1.45;color:var(--ink);margin-top:14px">{band.question}</p>
+          <p style="font-size:15.5px;line-height:1.6;color:var(--text-muted);margin-top:14px">
+            Our free diagnostic reads your institution across five bands and gives you a written map plus three questions for your board.
+            {service && <span> Where this one lands, the engagement is usually <strong style="color:var(--ink)">{service.name.toLowerCase()}</strong>.</span>}
+          </p>
+          <a class="btn btn-accent" href="/#session-zero" style="margin-top:20px">Run session zero</a>
+        </aside>
+      )}
+    </div>
+  </article>
+
+  <section class="band" style="background:var(--sand);border-top:1px solid var(--border-subtle);padding-block:var(--space-8)">
+    <div class="wrap">
+      <p class="eyebrow" style="--tick:var(--gold)">Keep reading</p>
+      <ul class="qlist" style="margin-top:24px">
+        {others.map((a) => (
+          <li>
+            <a href={`/answers/${a.slug}/`}>
+              <b style={`background:var(--${BANDS.find((b) => b.key === a.band)?.token ?? "coral"})`}></b>
+              <span class="q">{a.question}</span>
+              <span class="go">Read</span>
+            </a>
+          </li>
+        ))}
+      </ul>
+      <p style="margin-top:36px"><a href={`mailto:${ORG.email}`}>Ask us something we haven&rsquo;t answered &rarr;</a></p>
+    </div>
+  </section>
+</Base>

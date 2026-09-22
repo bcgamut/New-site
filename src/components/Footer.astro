@@ -1,0 +1,32 @@
+---
+import { ORG, SERVICES } from "../content/practice";
+---
+<footer>
+  <div class="wrap">
+    <div class="fgrid">
+      <div>
+        <img src="/gamut-logo.png" alt="Gamut Purpose Partners" width="500" height="269" />
+        <p style="max-width:34ch;color:var(--text-on-dark-muted);font-size:15px">{ORG.description.split(".")[0]}.</p>
+      </div>
+      <div>
+        <p class="lbl">Practice</p>
+        <ul>
+          {SERVICES.map((s) => <li><a href={`/approach/#${s.slug}`}>{s.name}</a></li>)}
+        </ul>
+      </div>
+      <div>
+        <p class="lbl">Start here</p>
+        <ul>
+          <li><a href="/#session-zero">Session zero</a></li>
+          <li><a href="/answers/">Answers</a></li>
+          <li><a href="/practice/">The practice</a></li>
+          <li><a href={`mailto:${ORG.email}`}>Contact</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="fbase">
+      <span>&copy; {new Date().getFullYear()} {ORG.name}</span>
+      <span>Full range. Single purpose.</span>
+    </div>
+  </div>
+</footer>

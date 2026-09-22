@@ -1,0 +1,79 @@
+---
+import Base from "../layouts/Base.astro";
+import { ORG, PEOPLE, PROOF, CLIENTS, VOICES, DIFFERENTIATOR, BELIEF } from "../content/practice";
+
+const tokens = ["coral", "gold", "electric", "indigo", "teal"];
+---
+<Base
+  title="The practice — Gamut Purpose Partners"
+  description="Brian Cox and Michael Brooks advise nonprofits and cause-minded companies on purpose and strategy. Former leaders at Salesforce, ChildFund International and United Way Worldwide."
+>
+  <section class="band" style="padding-bottom:0">
+    <div class="wrap">
+      <p class="eyebrow" style="--tick:var(--coral)">The practice</p>
+      <h1 style="font-size:clamp(38px,6vw,68px);margin:18px 0 0;max-width:15ch">We have run the thing we advise you on.</h1>
+      <p class="lede">{DIFFERENTIATOR}</p>
+    </div>
+  </section>
+
+  <section class="band dark" style="margin-top:64px">
+    <div class="wrap">
+      <blockquote class="pull">&ldquo;{BELIEF}&rdquo;</blockquote>
+      <div class="partners">
+        {PEOPLE.map((p, i) => (
+          <div class="partner">
+            <span class="edge" style={`background:var(--${tokens[i]})`}></span>
+            <h3>{p.name}</h3>
+            <p class="ptitle">{p.role}</p>
+            <p>{p.bio}</p>
+            {p.education.length > 0 && <p class="pnote">{p.education.join(" · ")}</p>}
+            {p.note && <p class="pnote">{p.note}</p>}
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="band">
+    <div class="wrap">
+      <p class="eyebrow" style="--tick:var(--electric)">The proof</p>
+      <h2 class="sec-h">What changed, measured.</h2>
+      <div class="stats">
+        {PROOF.map((s, i) => (
+          <div class="stat">
+            <span class="fig" style={`color:var(--${tokens[i % 5]})`}>{s.figure}</span>
+            <p>{s.label}</p>
+            <span class="src">{s.client || "Across the practice"}</span>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="band" style="background:var(--sand);border-block:1px solid var(--border-subtle)">
+    <div class="wrap">
+      <p class="eyebrow" style="--tick:var(--gold)">In their words</p>
+      <div class="grid3" style="margin-top:36px">
+        {VOICES.map((v, i) => (
+          <div>
+            <span class="edge" style={`background:var(--${tokens[i]});width:36px;height:5px;border-radius:3px;display:block;margin-bottom:18px`}></span>
+            <p style="font-family:var(--font-serif);font-style:italic;font-size:clamp(18px,2.1vw,22px);line-height:1.4;color:var(--ink)">&ldquo;{v.quote}&rdquo;</p>
+            <p style="font-family:var(--font-mono);font-size:11.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--text-muted);margin-top:16px">{v.who} &middot; {v.org}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="band">
+    <div class="wrap">
+      <p class="eyebrow" style="--tick:var(--teal)">Who we have done this with</p>
+      <h2 class="sec-h">Institutions that intend to last.</h2>
+      <div class="work">{CLIENTS.map((c) => <span>{c}</span>)}</div>
+      <div style="display:flex;gap:12px;flex-wrap:wrap;margin-top:44px">
+        <a class="btn btn-accent btn-lg" href="/#session-zero">Start session zero</a>
+        <a class="btn btn-outline btn-lg" href={`mailto:${ORG.email}`}>Book thirty minutes</a>
+      </div>
+    </div>
+  </section>
+</Base>

@@ -1,0 +1,55 @@
+---
+import "../styles/site.css";
+import Nav from "../components/Nav.astro";
+import Footer from "../components/Footer.astro";
+import { ORG } from "../content/practice";
+import { organizationSchema, peopleSchema } from "../lib/schema";
+
+interface Props {
+  title: string;
+  description: string;
+  /** Extra JSON-LD for this page (FAQPage, Service, and so on). */
+  schemas?: unknown[];
+}
+
+const { title, description, schemas = [] } = Astro.props;
+const canonical = new URL(Astro.url.pathname, Astro.site ?? ORG.url).href;
+
+// Organization and Person go on every page: assistants land on deep pages far
+// more often than on the home page, and each one has to identify the practice.
+const graph = [organizationSchema(), ...peopleSchema(), ...schemas];
+---
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonical} />
+    <link rel="icon" href="/gamut-logo.png" />
+
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content={ORG.name} />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    <meta name="twitter:card" content="summary_large_image" />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;500;600;700;800&family=Newsreader:ital,opsz,wght@0,16..72,400;0,16..72,500;1,16..72,400;1,16..72,500&family=Spline+Sans+Mono:wght@500;600&display=swap"
+    />
+
+    {graph.map((s) => (
+      <script type="application/ld+json" set:html={JSON.stringify(s)} />
+    ))}
+  </head>
+  <body>
+    <a href="#main" class="skip">Skip to content</a>
+    <Nav />
+    <main id="main"><slot /></main>
+    <Footer />
+  </body>
+</html>

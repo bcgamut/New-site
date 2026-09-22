@@ -69,27 +69,40 @@ discoverability half crippled, which is the half that compounds.
 ## What is here now
 
 ```
-prototype/index.html        A complete, working prototype of the agentic homepage.
-                            Published as a private Claude Artifact for review.
-                            Runs the real diagnostic, and degrades to a scripted
-                            one if the viewer declines or is offline.
+src/content/           The content model. Single source of truth.
+  practice.ts            Org, partners, clients, proof, the five bands, services.
+  approach.ts            Five pillars, three phases, facilitation, V2MOM.
+  answers.ts             The /answers content.
 
-src/content/practice.ts     The content model. Single source of truth.
-src/lib/schema.ts           JSON-LD: ProfessionalService, Person, Service, FAQPage.
-src/pages/llms.txt.ts       /llms.txt, generated from the content model.
-public/robots.txt           Explicitly welcomes AI crawlers.
+src/pages/
+  index.astro            Home — the diagnostic is the hero.
+  approach.astro         How we work.
+  practice.astro         Partners, proof, clients, client voices.
+  answers/index.astro    The answers hub.
+  answers/[slug].astro   One page per answer, each with FAQPage schema.
+  llms.txt.ts            /llms.txt, generated from the content model.
 
-netlify/functions/session.mts   The facilitator. Claude Opus 5, structured output
-                                via Zod, prompt-cached persona, CORS allowlist,
-                                typed error handling, refusal handling.
+src/components/
+  Diagnostic.astro       Session zero. Calls /api/session, falls back to a
+                         scripted diagnostic if the API is unreachable.
+  Nav.astro, Footer.astro
 
-netlify.toml                Routing, headers, /api/session.
-astro.config.mjs            Static output — every marketing page is HTML on a CDN.
+src/layouts/Base.astro   Head, canonical, OG, and JSON-LD on every page.
+src/lib/schema.ts        ProfessionalService, Person, Service, FAQPage.
+src/styles/              tokens.css (from the design system) + site.css.
+
+netlify/functions/session.mts   The facilitator. Claude Opus 5, structured
+                                output via Zod, prompt-cached persona, CORS
+                                allowlist, typed error and refusal handling.
+                                The file Squarespace cannot host.
+
+prototype/index.html     The original standalone concept, kept for reference.
+                         Published as a private Claude Artifact.
 ```
 
-**Not yet built:** the Astro page layer (home, approach, work, about, the `/answers/`
-content that feeds answer engines). That waits on sign-off for direction and copy —
-the prototype is the thing to react to first.
+11 pages build. `npx tsc --noEmit` is clean. Every page carries Organization
+and Person JSON-LD — assistants land on deep pages far more often than on the
+home page, and each one has to identify the practice on its own.
 
 ## Running it
 

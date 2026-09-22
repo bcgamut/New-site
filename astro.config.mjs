@@ -1,5 +1,6 @@
 // @ts-check
 import { defineConfig } from "astro/config";
+import sitemap from "@astrojs/sitemap";
 
 export default defineConfig({
   site: "https://gamutpurpose.com",
@@ -7,5 +8,6 @@ export default defineConfig({
   // why this will outrun Squarespace. The one dynamic thing — the diagnostic —
   // lives in a Netlify function, not in the page render path.
   output: "static",
+  integrations: [sitemap()],
   build: { inlineStylesheets: "auto" },
 });

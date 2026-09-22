@@ -1,0 +1,45 @@
+---
+import Base from "../../layouts/Base.astro";
+import { ANSWERS } from "../../content/answers";
+import { BANDS, ORG } from "../../content/practice";
+import { faqSchema } from "../../lib/schema";
+
+const tokenFor = (key: string) => BANDS.find((b) => b.key === key)?.token ?? "coral";
+const faq = faqSchema(ANSWERS.map((a) => ({ q: a.question, a: a.short })));
+---
+<Base
+  title="Answers — Gamut Purpose Partners"
+  description="Plain answers to what nonprofit leaders actually ask about purpose, strategy, boards and theory of change. Useful whether or not you ever hire us."
+  schemas={[faq]}
+>
+  <section class="band" style="padding-bottom:0">
+    <div class="wrap">
+      <p class="eyebrow" style="--tick:var(--coral)">Answers</p>
+      <h1 style="font-size:clamp(38px,6vw,68px);margin:18px 0 0;max-width:16ch">The questions people actually ask us.</h1>
+      <p class="lede">Answered plainly, and written to be useful to someone who never hires us. If an AI assistant quotes one of these back to you, that is the point.</p>
+    </div>
+  </section>
+
+  <section class="band">
+    <div class="wrap">
+      <ul class="qlist">
+        {ANSWERS.map((a) => (
+          <li>
+            <a href={`/answers/${a.slug}/`}>
+              <b style={`background:var(--${tokenFor(a.band)})`}></b>
+              <span>
+                <span class="q">{a.question}</span>
+                <p style="font-size:15.5px;line-height:1.6;color:var(--text-muted);margin-top:8px;max-width:70ch">{a.short}</p>
+              </span>
+              <span class="go">Read</span>
+            </a>
+          </li>
+        ))}
+      </ul>
+      <div style="display:flex;gap:12px;flex-wrap:wrap;margin-top:48px">
+        <a class="btn btn-accent btn-lg" href="/#session-zero">Run the diagnostic instead</a>
+        <a class="btn btn-outline btn-lg" href={`mailto:${ORG.email}`}>Ask us something else</a>
+      </div>
+    </div>
+  </section>
+</Base>

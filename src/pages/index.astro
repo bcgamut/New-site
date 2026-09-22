@@ -1,0 +1,108 @@
+---
+import Base from "../layouts/Base.astro";
+import Diagnostic from "../components/Diagnostic.astro";
+import { ORG, BANDS, PROOF, CLIENTS, DIFFERENTIATOR, VOICES } from "../content/practice";
+import { ANSWERS } from "../content/answers";
+import { faqSchema } from "../lib/schema";
+
+const faq = faqSchema(ANSWERS.slice(0, 4).map((a) => ({ q: a.question, a: a.short })));
+---
+<Base
+  title="Gamut Purpose Partners — strategy for institutions that intend to last"
+  description="Strategy advisers to nonprofits and cause-minded companies. Run our free diagnostic and leave with a read on where your institution is stuck, and three questions for your board."
+  schemas={[faq]}
+>
+  <Diagnostic />
+
+  <section class="band" id="how">
+    <div class="wrap">
+      <p class="eyebrow" style="--tick:var(--electric)">How this works</p>
+      <h2 class="sec-h">Most strategy sites describe the work. This one does some of it.</h2>
+      <div class="grid3">
+        <div class="step"><span class="n">01</span><div>
+          <h3 style="font-size:19px;margin-bottom:8px">You answer four questions</h3>
+          <p style="font-size:15.5px;color:var(--text-muted)">The kind we open a board retreat with. They follow what you actually said, not a script.</p>
+        </div></div>
+        <div class="step"><span class="n">02</span><div>
+          <h3 style="font-size:19px;margin-bottom:8px">We read your gamut</h3>
+          <p style="font-size:15.5px;color:var(--text-muted)">Five bands, scored. Where you&rsquo;re strong, where you&rsquo;re stuck, and the pattern underneath both.</p>
+        </div></div>
+        <div class="step"><span class="n">03</span><div>
+          <h3 style="font-size:19px;margin-bottom:8px">You take it to your board</h3>
+          <p style="font-size:15.5px;color:var(--text-muted)">A one-page map and three uncomfortable questions. Useful whether or not you ever call us.</p>
+        </div></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="band" id="bands" style="background:var(--sand);border-block:1px solid var(--border-subtle)">
+    <div class="wrap">
+      <p class="eyebrow" style="--tick:var(--gold)">The five bands</p>
+      <h2 class="sec-h">Our name is a colour gamut. So is the diagnostic.</h2>
+      <p class="lede" style="margin-top:18px">Every institution has range. The question is which part of it has gone quiet &mdash; and whether anyone in the building has said so out loud.</p>
+      <div class="grid5">
+        {BANDS.map((b) => (
+          <div class="card">
+            <span class="edge" style={`background:var(--${b.token})`}></span>
+            <h3>{b.name}</h3>
+            <p>{b.question}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="band">
+    <div class="wrap">
+      <p class="eyebrow" style="--tick:var(--electric)">The proof</p>
+      <h2 class="sec-h">Every strategy project is also a culture project.</h2>
+      <p class="lede" style="margin-top:18px">{DIFFERENTIATOR}</p>
+      <div class="stats">
+        {PROOF.map((s, i) => (
+          <div class="stat">
+            <span class="fig" style={`color:var(--${["coral", "gold", "electric", "teal"][i % 4]})`}>{s.figure}</span>
+            <p>{s.label}</p>
+            <span class="src">{s.client || "Across the practice"}</span>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="band dark">
+    <div class="wrap">
+      <p class="eyebrow" style="--tick:var(--coral)">In their words</p>
+      <blockquote class="pull">&ldquo;{VOICES[0].quote}&rdquo;</blockquote>
+      <p style="font-family:var(--font-mono);font-size:12.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--text-on-dark-muted);margin-top:22px">
+        {VOICES[0].who} &middot; {VOICES[0].org}
+      </p>
+      <div class="ticks" style="margin-top:26px">
+        {BANDS.map((b) => <i style={`background:var(--${b.token})`}></i>)}
+      </div>
+    </div>
+  </section>
+
+  <section class="band">
+    <div class="wrap">
+      <p class="eyebrow" style="--tick:var(--teal)">Who we have done this with</p>
+      <h2 class="sec-h">Institutions that intend to last.</h2>
+      <div class="work">
+        {CLIENTS.map((c) => <span>{c}</span>)}
+      </div>
+      <p class="meta" style="margin-top:22px">Strategic planning &middot; Theory of change &middot; Purpose distillation &middot; Facilitation &middot; Organizational design</p>
+    </div>
+  </section>
+
+  <section class="band" style="padding-top:0">
+    <div class="wrap">
+      <div class="cta-card">
+        <h2>Ready to say the hard thing out loud?</h2>
+        <p>Run session zero, or skip straight to thirty minutes. Either way you leave with something you can use.</p>
+        <div style="display:flex;gap:12px;justify-content:center;flex-wrap:wrap">
+          <a class="btn btn-ink btn-lg" href="#session-zero">Start session zero</a>
+          <a class="btn btn-outline btn-lg" style="border-color:var(--white);color:var(--white)" href={`mailto:${ORG.email}`}>Book a call</a>
+        </div>
+      </div>
+    </div>
+  </section>
+</Base>
