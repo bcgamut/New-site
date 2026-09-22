@@ -124,6 +124,14 @@ Nothing on the site is invented — there are no placeholder statistics anywhere
 their personal email addresses, partner phone numbers, and rate-card and pro-bono
 pricing. Those belong in a proposal, not on a public site.
 
+## Do not name
+
+Some organisations must never appear on the site or in generated content, even
+though they appear in the Drive proposal library. Check this list before pulling
+any new client material in.
+
+- **Miriam's Kitchen** — do not name, in any copy, data file, schema or llms.txt.
+
 ## Open questions
 
 - **Client-quote clearance.** `VOICES` in `practice.ts` comes from a document
