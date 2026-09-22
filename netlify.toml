@@ -1,0 +1,27 @@
+[build]
+  command = "npm run build"
+  publish  = "dist"
+
+[functions]
+  directory = "netlify/functions"
+  node_bundler = "esbuild"
+
+# The diagnostic's brain. Squarespace cannot host this: it needs a server-side
+# secret (ANTHROPIC_API_KEY) that must never reach the browser.
+[[redirects]]
+  from = "/api/session"
+  to   = "/.netlify/functions/session"
+  status = 200
+
+[[headers]]
+  for = "/*"
+  [headers.values]
+    X-Content-Type-Options = "nosniff"
+    Referrer-Policy = "strict-origin-when-cross-origin"
+    X-Frame-Options = "SAMEORIGIN"
+
+# llms.txt must be served as plain text, not downloaded.
+[[headers]]
+  for = "/llms.txt"
+  [headers.values]
+    Content-Type = "text/plain; charset=utf-8"

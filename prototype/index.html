@@ -1,0 +1,821 @@
+<title>Gamut Session Zero</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;500;600;700;800&family=Newsreader:ital,opsz,wght@0,16..72,400;0,16..72,500;1,16..72,400;1,16..72,500&family=Spline+Sans+Mono:wght@500;600&display=swap">
+<style>
+/* ============================================================
+   Gamut Purpose Partners — tokens (from the Gamut design system)
+   Single-theme by design: the brand commits to ink on bone.
+   ============================================================ */
+:root{
+  --ink:#181a26; --ink-soft:#262834; --ink-line:#313342; --white:#fff;
+  --coral:#f43b6c; --gold:#efb941; --electric:#005bed; --indigo:#162071; --teal:#16524d;
+  --coral-100:#fde3ea; --coral-700:#c41f4c;
+  --gold-100:#fbf1d4; --electric-100:#dbe7ff; --electric-700:#0040a8;
+  --indigo-100:#dee1f2; --teal-100:#d7e6e2;
+  --bone:#fbf8f2; --paper:#fff; --sand:#f1ece2;
+  --stone-200:#e6e1d7; --stone-400:#b6b0a4; --stone-600:#6e6a60; --stone-800:#3a3833;
+  --text-strong:var(--ink); --text-body:var(--stone-800); --text-muted:var(--stone-600);
+  --text-on-dark:var(--white); --text-on-dark-muted:#b7b9c4;
+  --border-subtle:var(--stone-200); --border-on-dark:var(--ink-line);
+  --accent:var(--coral); --link:var(--electric); --focus-ring:var(--electric);
+  --shadow-sm:0 1px 2px rgba(24,26,38,.06),0 1px 3px rgba(24,26,38,.08);
+  --shadow-md:0 4px 14px rgba(24,26,38,.08),0 2px 4px rgba(24,26,38,.05);
+  --shadow-lg:0 18px 48px rgba(24,26,38,.14),0 6px 14px rgba(24,26,38,.06);
+  --space-2:8px; --space-3:12px; --space-4:16px; --space-5:24px; --space-6:32px;
+  --space-7:48px; --space-8:64px; --space-9:96px;
+  --container:1080px; --container-wide:1280px; --container-narrow:720px;
+  --radius-sm:8px; --radius-md:12px; --radius-lg:18px; --radius-pill:999px;
+  --ease-out:cubic-bezier(.22,.61,.36,1); --ease-spring:cubic-bezier(.34,1.4,.64,1);
+  --dur-fast:120ms; --dur:200ms;
+  --font-display:'Hanken Grotesk',system-ui,-apple-system,sans-serif;
+  --font-body:'Hanken Grotesk',system-ui,-apple-system,sans-serif;
+  --font-serif:'Newsreader',Georgia,'Times New Roman',serif;
+  --font-mono:'Spline Sans Mono',ui-monospace,'SF Mono',monospace;
+}
+*{box-sizing:border-box}
+body{
+  background:var(--bone); color:var(--text-body);
+  font-family:var(--font-body); font-size:16px; line-height:1.6;
+  margin:0; -webkit-font-smoothing:antialiased;
+}
+h1,h2,h3,h4{font-family:var(--font-display);color:var(--text-strong);margin:0;text-wrap:balance;letter-spacing:-.03em;line-height:1.05;font-weight:800}
+p{margin:0}
+a{color:var(--link);text-decoration:none}
+a:hover{color:var(--electric-700)}
+:focus-visible{outline:3px solid var(--focus-ring);outline-offset:2px;border-radius:2px}
+.wrap{max-width:var(--container-wide);margin:0 auto;padding-inline:24px;width:100%}
+.narrow{max-width:var(--container);margin:0 auto;padding-inline:24px;width:100%}
+
+/* mono eyebrow + spectrum tick — the brand's native "icon" */
+.eyebrow{font-family:var(--font-mono);font-size:12px;font-weight:600;letter-spacing:.16em;text-transform:uppercase;color:var(--text-muted);display:flex;align-items:center;gap:10px;margin:0}
+.eyebrow::before{content:"";width:18px;height:7px;border-radius:3px;background:var(--tick,var(--coral));flex:none}
+.ticks{display:flex;gap:6px}
+.ticks i{width:28px;height:8px;border-radius:4px;display:block}
+
+/* ── prototype strip ─────────────────────────────────────── */
+.proto{background:var(--ink);color:var(--text-on-dark-muted);font-family:var(--font-mono);font-size:11.5px;letter-spacing:.1em;text-transform:uppercase}
+.proto .wrap{display:flex;gap:14px;align-items:center;padding-block:9px;flex-wrap:wrap}
+.proto b{color:var(--gold);font-weight:600}
+
+/* ── nav ─────────────────────────────────────────────────── */
+.nav{position:sticky;top:env(safe-area-inset-top,0px);z-index:50;background:rgba(251,248,242,.88);backdrop-filter:saturate(1.4) blur(12px);border-bottom:1px solid var(--border-subtle)}
+.nav .wrap{display:flex;align-items:center;justify-content:space-between;gap:20px;padding-block:14px}
+.nav img{height:34px;display:block}
+.nav nav{display:flex;align-items:center;gap:28px}
+.nav nav a{font-weight:600;font-size:15px;color:var(--stone-600)}
+.nav nav a:hover{color:var(--ink)}
+@media(max-width:720px){.nav nav a:not(.btn){display:none}}
+
+/* ── buttons ─────────────────────────────────────────────── */
+.btn{font-family:var(--font-display);font-weight:700;font-size:15px;border-radius:var(--radius-sm);border:1.5px solid transparent;padding:0 20px;height:46px;display:inline-flex;align-items:center;justify-content:center;gap:8px;cursor:pointer;transition:transform var(--dur-fast) var(--ease-out),filter var(--dur-fast),box-shadow var(--dur) var(--ease-out);text-align:center}
+.btn:hover{transform:translateY(-2px);filter:brightness(1.08)}
+.btn:active{transform:translateY(1px) scale(.985)}
+.btn:disabled{opacity:.45;cursor:not-allowed;transform:none;filter:none}
+.btn-accent{background:var(--coral);color:var(--white);box-shadow:var(--shadow-coral,0 12px 30px rgba(244,59,108,.28))}
+.btn-ink{background:var(--ink);color:var(--white)}
+.btn-outline{background:transparent;color:var(--ink);border-color:var(--ink)}
+.btn-ghost{background:transparent;color:var(--stone-600);border-color:var(--border-subtle)}
+.btn-sm{height:38px;font-size:14px;padding:0 15px}
+.btn-lg{height:56px;font-size:17px;padding:0 28px}
+
+/* ── hero ────────────────────────────────────────────────── */
+.hero{padding-block:72px 40px}
+.hero h1{font-size:clamp(40px,6.6vw,76px);margin:18px 0 0}
+.hero h1 em{font-style:normal;color:var(--coral)}
+.lede{font-size:clamp(17px,2vw,20px);line-height:1.55;color:var(--text-body);max-width:52ch;margin-top:20px}
+.lede b{color:var(--ink);font-weight:600}
+
+/* the ask — the site's real navigation */
+.ask{margin-top:40px;max-width:760px}
+.ask-q{font-family:var(--font-serif);font-style:italic;font-weight:400;font-size:clamp(21px,2.6vw,27px);line-height:1.35;color:var(--ink);margin-bottom:16px}
+.field{display:flex;gap:10px;align-items:stretch;background:var(--paper);border:1.5px solid var(--ink);border-radius:var(--radius-md);padding:8px 8px 8px 16px;box-shadow:var(--shadow-md);flex-wrap:wrap}
+.field textarea{flex:1 1 260px;border:0;outline:0;resize:none;font-family:var(--font-body);font-size:16.5px;line-height:1.5;color:var(--ink);background:transparent;padding:11px 0;min-height:46px;max-height:180px;min-width:0}
+.field textarea::placeholder{color:var(--stone-400)}
+.field:focus-within{box-shadow:0 0 0 3px var(--electric-100),var(--shadow-md);border-color:var(--electric)}
+.starters{display:flex;flex-wrap:wrap;gap:9px;margin-top:16px}
+.chip{font-family:var(--font-body);font-size:14px;line-height:1.3;text-align:left;color:var(--stone-800);background:var(--paper);border:1px solid var(--border-subtle);border-radius:var(--radius-pill);padding:9px 16px;cursor:pointer;transition:all var(--dur-fast) var(--ease-out)}
+.chip:hover{border-color:var(--ink);color:var(--ink);transform:translateY(-2px);box-shadow:var(--shadow-sm)}
+.chip-tick{display:inline-block;width:14px;height:6px;border-radius:3px;margin-right:9px;vertical-align:middle;background:var(--coral)}
+.meta{font-family:var(--font-mono);font-size:12px;letter-spacing:.08em;color:var(--text-muted);text-transform:uppercase;margin-top:18px}
+
+/* ── session ─────────────────────────────────────────────── */
+.session{padding-block:40px 24px}
+.session-head{display:flex;justify-content:space-between;align-items:flex-end;gap:20px;flex-wrap:wrap;border-bottom:1px solid var(--border-subtle);padding-bottom:16px;margin-bottom:8px}
+.progress{display:flex;gap:5px;align-items:center}
+.progress i{width:34px;height:9px;border-radius:4px;background:var(--stone-200);transition:background var(--dur) var(--ease-out)}
+.thread{display:flex;flex-direction:column;gap:26px;padding-block:28px;max-width:760px}
+.turn{animation:rise var(--dur) var(--ease-out) both}
+@keyframes rise{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+@media(prefers-reduced-motion:reduce){*{animation-duration:.01ms!important;transition-duration:.01ms!important}}
+.turn-q{font-family:var(--font-serif);font-style:italic;font-size:clamp(20px,2.5vw,26px);line-height:1.38;color:var(--ink)}
+.turn-q .who{display:block;font-family:var(--font-mono);font-style:normal;font-size:11.5px;letter-spacing:.16em;text-transform:uppercase;color:var(--text-muted);margin-bottom:10px}
+.turn-a{border-left:2px solid var(--coral);padding-left:18px;font-size:16.5px;color:var(--stone-800)}
+.turn-a .who{display:block;font-family:var(--font-mono);font-size:11.5px;letter-spacing:.16em;text-transform:uppercase;color:var(--text-muted);margin-bottom:6px}
+.thinking{font-family:var(--font-mono);font-size:13px;letter-spacing:.1em;text-transform:uppercase;color:var(--text-muted)}
+.thinking i{display:inline-block;width:7px;height:7px;border-radius:50%;background:var(--coral);margin-right:8px;animation:pulse 1.1s var(--ease-out) infinite}
+@keyframes pulse{0%,100%{opacity:.25}50%{opacity:1}}
+.notice{font-family:var(--font-mono);font-size:12px;letter-spacing:.06em;color:var(--text-muted);background:var(--sand);border:1px solid var(--border-subtle);border-radius:var(--radius-sm);padding:10px 14px;max-width:760px}
+
+/* ── the map ─────────────────────────────────────────────── */
+.map{padding-block:24px 72px}
+.map-card{background:var(--paper);border:1.5px solid var(--ink);border-radius:var(--radius-lg);padding:clamp(24px,4vw,48px);position:relative;box-shadow:14px -14px 0 var(--coral),-14px 14px 0 var(--gold)}
+@media(max-width:820px){.map-card{box-shadow:8px -8px 0 var(--coral),-8px 8px 0 var(--gold)}}
+.map-card h2{font-size:clamp(28px,4.4vw,46px);margin:14px 0 0}
+.read{font-size:clamp(16.5px,1.8vw,19px);line-height:1.6;color:var(--stone-800);max-width:62ch;margin-top:18px}
+.chart{margin-top:38px;display:flex;flex-direction:column;gap:2px}
+.chart-scale{display:grid;grid-template-columns:118px 1fr;gap:16px;align-items:center;font-family:var(--font-mono);font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--stone-400);margin-bottom:8px}
+.chart-scale span:last-child{display:flex;justify-content:space-between;padding-right:48px}
+.row{display:grid;grid-template-columns:118px 1fr;gap:16px;align-items:center;padding-block:9px}
+.row .name{font-family:var(--font-mono);font-size:12px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--ink);display:flex;align-items:center;gap:9px}
+.row .name b{width:14px;height:14px;border-radius:3px;flex:none}
+.track{position:relative;height:30px;background:var(--sand);border-radius:var(--radius-sm);overflow:hidden}
+.track::after{content:"";position:absolute;top:0;bottom:0;left:50%;width:1px;background:var(--stone-200)}
+.bar{display:block;height:100%;border-radius:var(--radius-sm);width:0;transition:width 620ms var(--ease-out);position:relative;z-index:1}
+.row .val{font-family:var(--font-mono);font-size:13px;font-weight:600;font-variant-numeric:tabular-nums;color:var(--ink);min-width:34px;text-align:right}
+.rowline{margin:-4px 0 0 134px;font-size:14px;color:var(--text-muted)}
+@media(max-width:600px){.row,.chart-scale{grid-template-columns:1fr;gap:6px}.rowline{margin-left:0}}
+.board{margin-top:42px;background:var(--ink);color:var(--text-on-dark);border-radius:var(--radius-md);padding:clamp(22px,3vw,34px)}
+.board h3{color:var(--white);font-size:clamp(20px,2.4vw,26px);margin-bottom:6px}
+.board ol{margin:20px 0 0;padding:0;list-style:none;counter-reset:bq;display:flex;flex-direction:column;gap:16px}
+.board li{counter-increment:bq;display:grid;grid-template-columns:auto 1fr;gap:14px;font-family:var(--font-serif);font-style:italic;font-size:clamp(17px,2vw,20px);line-height:1.4;color:var(--white)}
+.board li::before{content:counter(bq);font-family:var(--font-mono);font-style:normal;font-size:12px;font-weight:600;color:var(--gold);padding-top:7px}
+.next{margin-top:34px;display:grid;grid-template-columns:1fr auto;gap:24px;align-items:center;border-top:1px solid var(--border-subtle);padding-top:28px}
+@media(max-width:780px){.next{grid-template-columns:1fr}}
+.map-actions{display:flex;gap:10px;flex-wrap:wrap}
+
+/* ── content sections ────────────────────────────────────── */
+section.band{padding-block:var(--space-9)}
+.sec-h{font-size:clamp(28px,4vw,46px);margin:14px 0 0;max-width:20ch}
+.grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:22px;margin-top:44px}
+.grid5{display:grid;grid-template-columns:repeat(5,1fr);gap:18px;margin-top:44px}
+@media(max-width:900px){.grid3{grid-template-columns:1fr}.grid5{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:520px){.grid5{grid-template-columns:1fr}}
+.card{background:var(--paper);border:1px solid var(--border-subtle);border-radius:var(--radius-md);padding:26px;transition:transform var(--dur) var(--ease-out),box-shadow var(--dur) var(--ease-out)}
+.card:hover{transform:translateY(-3px);box-shadow:var(--shadow-md)}
+.card h3{font-size:20px;margin:12px 0 9px;letter-spacing:-.015em}
+.card p{font-size:15px;line-height:1.6;color:var(--text-muted)}
+.card .edge{width:36px;height:5px;border-radius:3px;display:block}
+.step{display:grid;grid-template-columns:auto 1fr;gap:16px;align-items:start}
+.step .n{font-family:var(--font-mono);font-size:12px;font-weight:600;letter-spacing:.14em;color:var(--coral);padding-top:5px}
+.dark{background:var(--ink);color:var(--text-on-dark)}
+.dark h2,.dark h3{color:var(--white)}
+.dark .eyebrow{color:var(--text-on-dark-muted)}
+.dark p{color:var(--text-on-dark-muted)}
+.bio{display:grid;grid-template-columns:1fr 1.25fr;gap:clamp(24px,5vw,64px);align-items:start;margin-top:44px}
+@media(max-width:860px){.bio{grid-template-columns:1fr}}
+.bio blockquote{font-family:var(--font-serif);font-style:italic;font-size:clamp(22px,3vw,32px);line-height:1.32;color:var(--white);margin:0}
+.creds{display:flex;flex-direction:column;gap:14px;margin-top:8px}
+.cred{display:grid;grid-template-columns:auto 1fr;gap:14px;font-size:15.5px;line-height:1.55;color:var(--text-on-dark-muted)}
+.cred b{width:10px;height:10px;border-radius:3px;margin-top:8px;flex:none}
+.work{display:flex;flex-wrap:wrap;gap:10px;margin-top:32px}
+.work span{font-family:var(--font-display);font-weight:700;font-size:15px;color:var(--stone-600);background:var(--paper);border:1px solid var(--border-subtle);border-radius:var(--radius-pill);padding:9px 17px}
+.cta-card{background:var(--coral);border-radius:var(--radius-lg);padding:clamp(32px,5vw,60px);text-align:center}
+.cta-card h2{color:var(--white);font-size:clamp(28px,4.4vw,46px);max-width:none}
+.cta-card p{color:rgba(255,255,255,.92);font-size:18px;margin:14px auto 28px;max-width:46ch}
+footer{background:var(--ink);color:var(--text-on-dark);padding-block:64px 36px}
+.fgrid{display:grid;grid-template-columns:1.6fr 1fr 1fr;gap:40px}
+@media(max-width:780px){.fgrid{grid-template-columns:1fr 1fr}}
+footer img{height:40px;margin-bottom:18px;display:block}
+footer .lbl{font-family:var(--font-mono);font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--text-on-dark-muted);margin-bottom:16px}
+footer ul{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:10px;font-size:15px}
+footer ul a{color:var(--white)}
+footer ul a:hover{color:var(--gold)}
+.fbase{margin-top:40px;padding-top:24px;border-top:1px solid var(--border-on-dark);display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;font-family:var(--font-mono);font-size:12.5px;color:var(--text-on-dark-muted)}
+</style>
+
+<div class="proto"><div class="wrap"><b>Prototype</b><span>Gamut agentic site &middot; concept for internal review</span></div></div>
+
+<header class="nav"><div class="wrap">
+  <a href="#top" aria-label="Gamut Purpose Partners, home"><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAfQAAAENCAYAAAD5S5dbAAAACXBIWXMAACr6AAAq+gHuKIAIAAAgAElEQVR4nO3dX2wd1YHH8TGBsCrgrLTdartxWvWBFjZ5221Sm30BkuLsC02A+ClNYOM80D8JsFJpojjEESmVyj+1IBWn5U9WqhwgKU8YSNk3uxipfUkKlfqya9OuRFU2QVVbCnj1GzxhfHxm7sydM3fOHH8/klWaOHPnnvnzO+fMmXP6FhYWIl/98V+/cU8URXd7u4MAAHjiEg4EAADtR6ADABAAAh0AgAAQ6AAABIBABwAgAAQ6AAABINABAAgAgQ4AQAAIdAAAAkCgAwAQAAIdAIAAEOgAAASAQAcAIAAEOgAAASDQAQAIAIEOAEAACHQAAAJAoAMAEIBLXX6Fvt1vr4uiaMDV9n7Q9+nPXv3n/13tansAAPhiw2ULf11zSbTganecBnoURTuiKLrb1cbuveTqKz/x+99f4Wp7AAD44sQn33/nussX3nO1O3S5AwAQAAIdAIAAEOgAAASAQAcAIAAEOgAAASDQAQAIAIEOAEAACHQAAAJAoAMAEAACHQCAABDoAAAEgEAHACAABDoAAAEg0AEACACBDgBAAAh0AAACQKADABAAAh0AgABc+n8v3zDo6mv8c//ez5595x9Wu9reqg//Z1Xfwh/6XG0PAICu9f1NtBB9YsHXArw0iqLnXG3s3z711JVzb62+wtX2+t57+5K+vxLoAIDmLay6eiFa9XlvA50udwAAAkCgAwAQAAIdAIAAEOgAAASAQAcAIAAEOgAAASDQAQAIAIEOAEAACHQAAAJAoAMAEAACHQCAABDoAAAEgEAHACAABDoAAAEg0AEACACBDgBAAAh0AAACQKADABAAAh0AgAAQ6AAABIBABwAgAAQ6AAABuJSDCAAoa2TH9mhkx7ZK5bb91p2Uu0MEOgCgtHXr1kaDgxspOI/Q5Q4AQAAIdAAAAkCgAwAQAAIdAIAAEOgAAASAQAcAIAAEOgAAASDQAQAIAIEOAEAACHQAAAJAoAMAEAACHQCAABDoAAAEgEAHACAALJ/aA1pmcN3A2viDpmdmA/+23env7482rL/m4r+dm38rmpt7q11fomFDi0tZ+lJ26fP+7Lk3owsXLjS+T0DICHSH1q+/Nhoa2hgNDW6Kb2br/+mazI1fePfd6NzZN+KAP3vujWhq6kzujuhmPTS0qeudnZ5+rdHKhPZ//YZro3UDA3Fw96/pzy0f0/z8b6O5ufmLYaXv42NIjOzYHh/7bk2ePNUxjJNzQf+7bt1ANDDwj5m/e+5Xb35UXjOvRdPTs9G5c2+4/sql9qdX+9SNqsdO30nHzyXtj/ariiLnFMJAoFeUXHD66XQjS+u/6qpocHBj/BMtBrxC/XsPft968emGec/dX6+0s70MdLW4tw5vjob1c9ONlbenstXP4OL/T8pC4aBQ0E3Lh2AY2bHt4jHthioqtuOv82x0z+5oZGRbfO4UpUqTfpJjoIrRE8efiiYnT1eqDCm8R0a2x8e3zP5EGfv04tSZaOL4U40GT9VjNzMz6z7QB9ZWv+4zzimEh0DvkgLr6PiBaMdt29xs76qr4m3p5+Szp6NDY8da2UWpctk7uisaHd1V+kbfjSQcRvd81VlY+cT1eaZK0fh9B6L/uOcb0cTE03EFsgxVXPVvy1Rei+yTjp9+dO5nVWrRe3k9BEMVKj8JnUtFNd3L2AYEehfUKnn0kQdqCyzdvPUZ+/bf27Er3ie6OHsV5DZVw8o3Kkt9lzrKU9tUyy85zzr1bujmPT5+sNRjkm4k576OnY4hmuWihyBP2W0T6PkY5V7S+JGD0ZM/eqz20NL29Tn6PN9p7MCZV16IL86mwjwtCavXX/uveN/aRq1yVRhVOam7PBXQp54/kfucVufg88+dqD3ME/rO+u4qAwDFEegl6AajbsFe0uf5fGNTECgQenWzL0Mt9jMv/7TyoKJe0mBBlaerLvYiFKCPPPydZeWkioUqar0+5xMqA32+9gNAZwR6QQrVXt5k0/S56n71jbqDFQQ+tMrzaB/b0trTfjZVOUqHuno2Xp99tfGKmj6fljpQDIFegMK0qTBP+BaausnW+WzNNR2/MgNwmtL0cR4fP3Cx18WXc06j4Ql1oDMCvQO1VPQ8Dx/TM9WmKzjdSAaBIVvS/e5bBTIZLAcgG4HewdEjhLnJl4lAuhG/ncAz2Vbi2AH5CPQcQ6mJX/AxTZ6x/65vt7JE1PLUe91oH44dkI9Az9GGZ65NaXOoq/u2yhSfaA7HDshGoGfQs3Na5/naHOpU1tqLYwfYEegZ2vTucpMU6pu//JV4LvoqNA92+qfq9jphgFV7qZXOs3RgOaZ+zbC1xhu+FhS5cH7pXONt7g3QILntt+ws/KpTshCNFuTQwip5865rHMPw8Jb4eLicP1z7qVBv09S6iRlj+suyK9fVIVkNL02r69U1Wl6L1DA1LLAUgW6hZ3QuwyNavOFpfmqFWFaAKWD27tnVynAvEupJGZRZkUpzN+tn7PD9ca+J3pN2FRJa5rYtga5FS3TuZO1vsrqd64VT8qhiplDNW55Tj6721jCPw9abNhPoPaBr79Nrv2D9IJ1rVeeiyNo2ukOXu4Xr+b8ffOgH0Rc3XR/f+PJao7pZb791Z/xcuu4u5zokoW7b94njz0Q3brm50vKS+rdf3HhD3MPhgtZl950qQXqk0WmhHp1Xcflsuj4+3+o29dLP4mPRaWU0nRPa941fcnfcosUeLbrdgaUIdIsNDgNd4Vx21S/dmBWMbWQLdZWBWtguljTVNrIqDWX53hOiAFQlqOx7/zrf6hysqN6C2++4s9TxVOjruLkM9TZUyIBeItAtXLXQ1YrptkWqm/jYfcec7EevpUNdwVKlVW6jIBkbc1M2vr4CpZZ5XIZdVoJU5nWcPzqn1eLuRlIZcxXqQ0ObnGwHCAWBbrGm380zWrVKq9AzQt3Y20ih/oVr/sV5mCe0XRdlo/WefbRv/7cq92jo/DEH0FWhClq3YZ74qDJW7bpI8D46sBSBbqHRuVWpWzLv2WJRZbvrV5IXWzhCvYiZxYGALrg8f1RBcPHYZHrx9cSqfK2MAU0h0C1cjKJ2FTahhpYL0zOvVd6KXvnyzeTJ0w7LaNZZL4/L3pYnjjNCHXCNQK+Jq9eh1CJy2W0aEvNd/m64HADpiutKnIvt6bm3ix6nhOYfqMpFTxoQEgLd4OK5nMuRvHL2nNvtwV9qTbvo1k5z0ZPhIoDT9B2rXie+LfEKNI1AN7h4LueyJRO1fLlSlGPOtuaCi54M15WMyNF+AfgYgV4D1wFcx00eK8fcvNsKpiv0PAFuEeg1OO+4NePrDRnt4LrHyJU6Wv3ASsZc7jU4d9Z1C729ga4xCZozXZP1aGYvHxYSAYAQEehwTiE+ume38xXSAADZCHQ4oyAfP3IwGr7pRgoVAHqMQEdlWvVKSymO7vkqhQkADSHQUYla5U/++HGeiwNAwwh0dE0D3U49f4IJPgDAA7y2hq6om50wBwB/EOjoCmEOAH4h0Gvg4wpeLmkAHM/MAcAvBHoNXK/gNTS40ZNv9tEguHvu/roHewIASCPQUYpa5wAA/zDKvQauW9RDQ5u8+F5qne+4bZuTbV149914SU4tZDM93d3ynloPe/y+A072BwDajkA3uFgBat26Aaf75GKNdheGhzc72c6DD/0gemLiaRbnAACHCHSDi5DR/OUKYVeLqmhxEx9svalaoKtVvv2WnazvDgA14Bl6TVy1ZjV5iy8LnAxWfJTwvQe/T5gjWHoEBDSJQLeYn/9t5W2M7NjuZF9cbaeq9RVH7qtMJyae9uGrALWoY14GKgkog0C3mJubr7wNvadddXCcZmMbGXEzCK2qNf3VblYvTp3x4WsAtXI9IHbdgNvxOAgbgW4xN+/m2fejj3w3DuXu//0D3szGVnWyHAbAwXfnL7xbeQ9dt6i3Onp0h5WBQLdwNZhNz74Vyt3Qv/NpXXHXk+W44MvrfAiDi/Ede/fsdlYWau37Mn4G7UCgW3T7XrSNQvnMKy8UfvVMLXotR+rqfe+QVX2uD7imAHY17mUlTOJUpQcTyxHoFtMzs063p+fpsz9/NQ5qXexmuOuk1qh4tcpfn33Vq5Z5omolx/W79CqzoSF/psRF+5119AbG+PiBykGl+0TVt0raYMN61oRwiffQM8zMzDq/oBTUPoZ1L7h6jS+xd3QXq73BKVeP2nReajVCzbnQzdgR9TypUrASaMyB6wbUSkYLPcOLLzEqO63qgCHd5EZHdznZF7VeWCAGrrmcI0G9cgr1sj1TOrfbsjSxi0eTGnNAt7s7BHqGycnTXu5XU1zc7DTvetXni6oUPPLwd5otDARrxmFrUaGu8TN6Ft4p2DUA7tRzJ+JzeyX1PGnMQVyBIdSdoMs9g7rKTj57msFpKed+9WblddB1w1KXomaNK9MdqYrAyI5tK+K5IpqjnjmX55jCWb1J+tH1o4pxumtf14LGgrQxxF11leueorFDU1Nn4nEM587aGw96ndjVY5FQEeg5FDoE+se0OlrVQJfRPV+Nf9Qa0k1BF/GF80vDXc/W1mjg2+BGQhw9o1CpawU/XTsurh+fuKjkR4sVH91r8+63WtRJ92RkI9BzqDY4cfyZOHwQRZMnTzkti0HCGp7RNV/HgNhQ6Z7AEsb+4Bl6B6oRupjbPQTqLqQsELrJk4yfKWqKKZ29QqB3oOe8u++4M176E1H0xPGnKAUETa1OKq7FJD0a8AOBXoBapmNjxxr7fJ8qExr9T+UGodu3/1sc44J4ru0PAr0g1dr33/Xtnn+uwlMTVPhCPRZNVm6AXtBgzamXfkZZF6Cy0htBaB6BXoJC/ZZbd/ashapuP4W5ywkvXFA5cLND6Pbtv5eu94IOjR2jrDxAoJek2ugXN95Qe6Bp+zduudm7ME/oZqdXVoBQMX6mOMrKDwR6F3Ty3n7HnXFr3fWAEG1P29X2fV5DPCmDJi9gfTatAtRJFep4TvaGznN1Zbdl0FnTZQUCvRK11rffujPa/OWvxBdet+GiC0D/XkGu7bVlsQKNcFVvRRMtdX2mPntubr7nn42Vpamg0kQq6glrE0K9WUws44BO4uTC01SOG9ZfG8/drP9e02+f0vHsuTejufn5ePY1X7vVi1BLXRew5qvu1QQ8muxn7PD9PfksIFq8xjdvuTl69OEHap90RmGo+0lb3/HuZVlhKQLdMZ3MbQ7obsQj3w/fH01NvRIHe10XsboeDx0+tuLKF35Qj5R60LRAkM7zOuZfV2W17DoHPkrKSssmHz1yMF6EBfUj0OFM8ghC86+PjGyPL+aqNz21VtRSmZw8xbrJ8MLExNPxfAwjI9vi5T+rhpXOcW1v4vhTwS0+omtXP8k9YWhwE+FeIwK9BcquqWxzvoc1/unFRVeixWUhh4Y2xf/bv6a/40IOurlptSU9kpieea1jt6Om6awS9C7WdHa5P3Xd0PU8tgrX5RTVtM1eUQtawa4fPVrbOrw5Pse1qFCRSqzGgOhxWy/Oca1S1rT0PUH3s3UDay8uwFRUm8+XXul756XrnR3th2ZXX/nDX66+wtX2+ubfvqRv/g99rrbXVmrpPvmjxyrt/S2eDbYzxxewNCJCMpTx2InzvN0WVl29sLDq8x+6+hInPvn+O9ddvvCeq+3RQm8BdVOFhufgCBmPh9AEXltrAXXnVcUNBgDCRqB7Tt3tVQeRMPkKAISPQPecXo+pSgNvAABhI9Ar6O/vjx595AEno9BtFOadRoUXodG0AICwEehdUpifev5EtOO2bdGZV17IHNXarZEd26N77v66k2292NIZp4C2OvXcieh3b/364o/+P1A3Ar0LSZgnrWe9d/r8cyei8SMH47+rSjNRPfLwd5zsq1Zta/usUwCAzgj0kswwT9Nc5q/PvvrRtJBdBLta+arJj993wNn+Tkw85WxbAAB/8R56CXlhnlBrXV3l+lHrWAPSNPNZ1mtjyexS6mJ38bw8TaPbeV0NAFYGAr2gImFuGr7pxvinKYdYkQwAVgy63AvoJsybppXJ2rr8IgCgPAK9gzaGebye8l33erAnAIBeocs9RxvDXMbGjhVeAELfccP6pd8vWUBC79drprr0ikh6Ba7IPOzm4itRzvSzyepLRX7Xtr9amS0Zya+/11S52qa+w+TJU0t+13y98PyFd+Pvk/53H2/3ja57OVRuG9Zfu+TPtD8qv27eOrDtX1TieNgkq4SZ+6hxH3UsIGKWfXKe2b5bt99L29DaB+ltaaVBzcVQdHvdnmPp76eVBZdsc03/su+f3maiF2UUOTr25jWeXEu2z1AZ5W03WZUxTdefjhtv6RTHamsZ2hrmJ589He3bX7x1rgvpeeMdWS21qYsv69U5DfbTZ+RdaBqtP2jcnD699gvW39VbAeY791m/a9tfrSSnm6O2ozcNEjOL67On6Z3gNP3OocPH4mNtW/ZSy1zquxa9cWpw4/j4gdwlNCeOPxONFRzfoPPQ/F4mDX7ct/9bhQdAqgwffeS7uVMKax+/9+D3nd5MzbLXeaYlMZ988nFreenY7L7ja4X2QeV0dPxAPC9EluRYdzqWWeeYyjc+FqO7Lu5v+hwzv18nthUQbWWkazHrnCr6ndLfzdWxN6/xpCxsn5G12qMqvkePHMzcH/U2aola7Y8PfF9tjS73DLo5hB7mWXSR5b0Hr4F+CkBfqPWj/ckLvSzr1g1khrnoHIgrdkZr20bzEKjcOq2Hrf3UZESdJJXKTt9LN0MFkCoTneh39Lud1gfQZ8bl4mBehSwq06wwF4XFz155oeM+aDt6XTQvzJPtnXn5p/H53Q3NCqmKZ5H1zl1JrsW8MtJxKjJbZS+OfdHPiBbLU8tC5/1u8tZQkesFBHomBaMCsi1chXm0GGJFfsfFPPMuqIbfbeVLN5NON2j9/dEj+XMDqFVSpkJRpPzK9hDpxp83Y6Fu+mrpldlH3XTroophp7LX8TnaYZ+1j2VCtpvpmsfHD3asMNShyPHXd3/04fzj1M2x71Tuy/7NhmsLT4ilXo4y5an9UYUZ+Qj0HApIdXn5zmWYm9S9rh8bXZQ+qLoaXUJd1ypLdfOZ1BLKa6Xrhp9VflnbjFt7Ga2grHkJ1K2pLtGsFfTyKgnxhEcZ3bb6sW1ToVukd6IqPdrIOs90488qJ52DtnJSeavcbdtUGZStjBYJVt0rkh+zLPX/038fd6XPF3/aqX+v455VRp3Oz26Ovcq9TMWnaKUqeYxkSr7jTMajI1WY61o3IxQMiutAz270nK/Tc6em7L/r28sGfrmgG4ee8yYDWWzPFXUB6899mbxG+6zjVXagkMJkbOz+i98ja/yEBvjYtq0bqfm7CpTtt+y8+PtZ2xwZ2RY/IzTZbnjpY61jo+5Ys3Wa3Nht+2nrajafbWp7ZstJlYuiz/zLMp8Ba99tj0BU9rbz3PaYwXwGrG2qq71TWRSh/Y3vCZZzPv2cV9dF+n4xNzff9XNgs8KeV0ZZ5775fc3zM8o49qN7dpc+9tq2BuZmDQDVOW/uuzkuJ+5ROHJw2Twe3ezPSkILvQBdvDduudmr1rpCaPOXv1JLmKumfPsddy4ZlTq92DI0qZvNB7rpaZ+7GfWrG0n6Bq2bigLelNWdPTS0/M91Q0vvi7ap/Vu+zU3L/kw3M7PyqO9nHmuNwNfnFNkfhYB5E9XxNINJZWG21mzbc0WD3tLlpP+2faes1qdZQYorZ4fvXxIk2qb5+CypjJahbWzPGNxVF4XjIaM8ssooq/Wq77ns2E88vexasR17c7R/J0lFQedq1qC6rTctr0yZg2x174n/zOjZKrs/Kw2BXpBONtWwN37phkafreuCU0tt85abu35lpZOs9dOnpl5Z9mfrBgZq2YcyPhrl3d0jB/1bWznqpm3eTDSAzsZ8PS3KWOFONykFztJtLr8Jm6/wRTlL4NqO1RpL97QtlG3HM7Lse12DQ9Xatd30bWVnu5HbAjnrNcOqKw7agrUXNG100TKynTdRRqVbvY425vlkvqnSiVmRLbI/WeeB/kzfv8r+rDR0uZeU1BwV7uru008vuuIVBKpV19EiN2W9L2prmfhQY65ys1ZXaBbdTNI3kKzjbN5IdfPPap2obNMBWTQss1pf2p75zNF2/Gwhn9XStO17Vjd+HfT5qmh1uq703nOR7x5/p/PLv5Peey7a2p6cPN3I+9BljlGWMsfeVn7J+/ZFFLk/mb0FWRXlaPFdfRRHoHdJJ7hCXT+62SnY1Qpy2ZpRiKtlpoukVzfTNvKtbMxWxZK/O/dGV/P753UPm+/a25QZ2KbWmzkvgDlJUN1U0UoHuq2VqbIs8t1daPPkJmUeLZy1XEuqsBYJ9KzBbCazsqb/zqo08Ly8HALdgfiZ1uKJl8wypdp/esapvK4ineC6gSUzLfk8Q5IqGb69n5/Xyq5CrZgiXXxVuwHNm5lt9LM+o8oAxF4Hsmu9fPd7JbP1ZLim+5vZ+6JBoHW9qbOSEOiOKYR10w112dJeXPArjdkCSrrRzYqC3jLQwMwnJp7ueWUv7hZlKd4gmOM4OjGnsa1K4xzMXqr4FbmBtZlvEKAYAh0ooczzxCp0YzNfE4wW313Xu9caT1E12LO6Ym3d2216/9c2F7svb2P4osyx16BPlys36hGibf6AwcVXY/NeDUQ+Ah0ooejzxKp0M9PbDLaZt5LpMKsGu63C0GYqj717dns5X4RPFKRNH3u9wnnquf+0HiuCvXu8tgZ4Si0ZTfySNStcEuyax9yXWfuaoBa55voev+8AYd4SqhRrbo+sme+iVLDHkyfVuKZASAh0wGPpSY1s08dGi8GuMKtz3nVftXVVRHw82ZIqrXkj5PV8XYv09GIK4rajyx3wXDKpkbrW947uWrJ8Z5pufMnrlEXcUuKVrzLzjveSRkfbpt3Vo4j05Cl6NqxKDz6e6tiXYz+dWnZVayLYKmfqeVGFVbPQsT56NgIdKEGvFjbFDHbzXfFocdCcuuqLPOdv+7NJtc7NFe5sc5RjOR+PvfZJM2BqTg9V1MzHJwp6nfe+rI3uI7rcgRJ8CIok2DWXv60bvsi66CGwTWdrm6McS/n+eEIVUj1msnXDr5Rzu1sEOkpx/U4qum/1Zy3SUXbRkbYqOoc+2keVVi3cY0pmlYMdgY5SVtLgo6KDcMpO1LHs31doUdoWZ7G9S9zko4K62G7stM7DoVC3tdKzFqEBgQ5kKjpdqjl7Xt5iE0UqCXp++Lu3fr3kJ4ttBTfbgDlb0GW9CqQWvvn5vW71m2XY9ht7k6uE2Z6XN3Xsbdu3rf2fePElelzKINCxTNbFbgujrNWQbC3CrO022YWWG75GSzfrfXBzFLC6BYt+16Kt+zI3Vdt+nreMDM5aKa/pWdVUdkXeJ7cFVea66R7MFNfUee7TsbfdL/LKxbZSHLIR6Fhm6/Bma6HY/jzrFRJbizBru0ODmxo7CFnP5BSgZks3axEY2wpVtu+qzzEfWdhGo9u2NzJiHwxk26bt39tWgMvapu141PHqksLDVvGxlV3RZTRtA+Xibd5kP/fqYtvf0T27e7oPCduxHx7eYv1dWzm5PPa6X5gDOYeHN+f2GJhYUjUbgY5lknc+0xeZWj622cjS7/qm2VoF4+MHlrWg9DlNz+715I8fXxLq+t56H9aU9aqPVsYzqRvRvEmNH7Ftc3n52band8zj989T29R/a98LbXNmdtmNVNtMHw9tT/ttLpzx0WqA7gNdFaaj4weWlL3+W+eJyVZBtJ178XvpxjmmkdG97vK2HQO9Yqfj1esJUmzHXvuS3g+Vu8rOLKc6jr05L7zOA90HbPcGc3/Uo8V76Nl4Dx1Wutnr5+Szp+O/1n+bdJMoE3K6cDWrly5o3SRUM/dhkJ32Yfbnr8bPaVX7VwvRVsnIGkGtsLGt8awpWScnT8c3IIWKbZu2RS/0+yp3s8w1MYp+kmMSt2yMXgQdE32mjT7L3OaZl38aT7+pz7Qd42jxNaK6JOeZ9kHnxMjINusYgLxKSvr3k3MsKXeFRDfrz1elsjbPCdG+JPuj2f969U61T8d+cvLUss9LykWBrXtH1jWo1xKRjUBHrqwLPepwcSnkbEuA6oabt80maV+zWnK60eSNoD50+P7oyR89tuy7mhOfpE0cfyaz9XNo7Jg1sKMOx0RrSme1YBQetm3mBZ5C6Yke3ETz9kEVmKxyUnCbZdyp3HvFdk40xadjr4qYzn3bMVLlOquSr/tJnZXLENDljmWy5gxPU8B1utj33XVv4W01RfvXaR/19wrKPGoBJS3nIvSd81pnCuV4mssC5ZfQ6mx5y1wqFG3vred979133FlbF2eR76bfySsn/V2R80cB0ms6FjomZY5hXXw79mOH7y913et3be+lYykCHcuo5a3uwCyqKReZU1k3kXgazpwLt1MI1U0DhvKCs8xUogr9vEVUEgr+IuWnz9ycMWNWmlpSt//71wq1Xjqt4JZIjnGd73Wr7HX8M//+V2/G+5D3DDep+OSVkcpbAdIElbeOofah6WDXvug88eHYy+YOiw4lVBljDvdi+t556XpnIx4eml195Q9/ufoKZzs3//YlffN/6HO1PSw3tLhEYVrybE/PH/UsKxlpqufLepbZTQAPx9vZdPF1menF7jPdrDUgx3ynOOvZvAZuma/caL+KXuzmO90ziwtDaB+SfdT75xrZq2d5em5e9kaifVS5qfySfdX2NPo8GT9QVnIs0mU1HT/zf6PrCpG+r2ZbS46vXjXUTVzfuY6beV7Za4xB+jzT55ftXtW/HxratGQ7U1OvXDyXzBHTOia2Y2E7x7J+t6z08bNts+g+2n43OX5FuDj2OifTczWU+fw02/WiYzc3P9/19VKXhVVXLyys+vyHrjZ/4pPvv3Pd5Qvvudoegb7C5QV6iLJCBfWj7NF2vgc6Xe4AAASAQAcAIAAEOgAAASDQAQAIAIEOAEAACGlMOKEAAAI7SURBVHQAAAJAoAMAEAACHQCAALA4ywqn2Z3MaTN9mpnJNfO7srZy71D2QL0I9BVOUzWupNm6mJmsOZQ9UC+63AEACACBDgBAAAh0AAACQKADABAAAh0AgAAQ6AAABIBABwAgAAQ6AAABINABAAgAgQ4AQAAIdAAAAkCgAwAQAAIdAIAAEOgAAASAQAcAIAAEOgAAASDQAQAIAIEOAEAACHQAAAJAoAMAEAACHQCAABDoAAAEgEAHACAABDoAAAEg0AEACACBDgBAAAh0AAACQKADABAAAh0AgABc6vNXWPjU3y4s9H9iwYNdAQCscH+5bPBPf75sy59clcILf/71gev+OHvW0ebOeR3o0erLFqLVl3mwIwCAle6D1X/3wV8u/9x7rorh8ehzZx97aueMq+3R5Q4AQAAIdAAAAkCgAwAQAAIdAIAAEOgAAASAQAcAIAAEOgAAASDQAQAIAIEOAEAACHQAAAJAoAMAEAACHQCAABDoAAAEgEAHACAABDoAAAEg0AEACACBDgBAAAh0AAACcKnLr3DrNe//6UtrP3iPEwMAEJrfvPuLn+z7xS0/cfi1zrksIqeB/pn+Dz/4TH/0gcttAgDgg6HoN//9zW/+/YyvB4MudwAAAkCgAwAQAAIdAIAAEOgAAASAQAcAIAAEOgAAASDQAQAIAIEOAEAACHQAAAJAoAMAEAACHQCAABDoAAAEgEAHACAABDoAAAEg0AEACACBDgBAAAh0AAACQKADANB2URT9PzglhTCzCIy2AAAAAElFTkSuQmCC" alt="Gamut Purpose Partners"></a>
+  <nav>
+    <a href="#how">How it works</a>
+    <a href="#bands">The five bands</a>
+    <a href="#practice">Practice</a>
+    <a class="btn btn-ink btn-sm" href="#top" id="navCta">Start session zero</a>
+  </nav>
+</div></header>
+
+<main id="top">
+
+  <!-- ══ HERO: the question is the navigation ══ -->
+  <section class="hero" id="hero"><div class="wrap">
+    <p class="eyebrow" style="--tick:var(--coral)">Session zero &middot; No cost &middot; Six minutes</p>
+    <h1>Tell us what&rsquo;s<br>not <em>moving</em>.</h1>
+    <p class="lede">Six minutes with the Gamut diagnostic and you&rsquo;ll leave with a read on where your institution is stuck &mdash; and the three questions to put to your board. <b>No form. No call. No cost.</b></p>
+
+    <div class="ask">
+      <p class="ask-q">So &mdash; what&rsquo;s the hardest thing about your institution right now?</p>
+      <div class="field">
+        <label for="seed" class="sr-only" style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)">What&rsquo;s the hardest thing about your institution right now?</label>
+        <textarea id="seed" rows="1" placeholder="Say it the way you&rsquo;d say it to a colleague you trust."></textarea>
+        <button class="btn btn-accent" id="startBtn" type="button">Begin</button>
+      </div>
+      <div class="starters" id="starters">
+        <button class="chip" type="button"><i class="chip-tick" style="background:var(--coral)"></i>Our board says yes to everything and nothing changes.</button>
+        <button class="chip" type="button"><i class="chip-tick" style="background:var(--gold)"></i>We&rsquo;re ninety years old and nobody under forty knows us.</button>
+        <button class="chip" type="button"><i class="chip-tick" style="background:var(--electric)"></i>The strategic plan is beautiful. It&rsquo;s also in a drawer.</button>
+        <button class="chip" type="button"><i class="chip-tick" style="background:var(--teal)"></i>Two of our programs are the mission. The other nine are history.</button>
+      </div>
+      <p class="meta">Your answers stay in this browser</p>
+    </div>
+  </div></section>
+
+  <!-- ══ SESSION ══ -->
+  <section class="session" id="session" hidden><div class="wrap">
+    <div class="session-head">
+      <div>
+        <p class="eyebrow" style="--tick:var(--coral)">Session zero in progress</p>
+        <h2 style="font-size:clamp(24px,3.2vw,34px);margin-top:12px">Reading your gamut</h2>
+      </div>
+      <div class="progress" id="progress" aria-hidden="true">
+        <i data-band="purpose"></i><i data-band="alignment"></i><i data-band="momentum"></i><i data-band="relevance"></i><i data-band="capacity"></i>
+      </div>
+    </div>
+
+    <div class="thread" id="thread" aria-live="polite"></div>
+
+    <div id="answerBox" style="max-width:760px">
+      <div class="field">
+        <label for="answer" style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)">Your answer</label>
+        <textarea id="answer" rows="1" placeholder="Your answer&hellip;"></textarea>
+        <button class="btn btn-accent" id="sendBtn" type="button">Send</button>
+      </div>
+      <div class="starters" id="answerChips"></div>
+    </div>
+    <p class="notice" id="fallbackNote" hidden></p>
+  </div></section>
+
+  <!-- ══ THE MAP ══ -->
+  <section class="map" id="map" hidden><div class="wrap">
+    <div class="map-card">
+      <p class="eyebrow" style="--tick:var(--coral)">Your inertia map</p>
+      <h2 id="mapHeadline">&nbsp;</h2>
+      <p class="read" id="mapRead"></p>
+
+      <div class="chart" id="chart" role="img" aria-label="Institutional strength across the five Gamut bands">
+        <div class="chart-scale"><span>Band</span><span><span>Stuck</span><span>Holding</span><span>Strong</span></span></div>
+      </div>
+
+      <div class="board">
+        <p class="eyebrow" style="--tick:var(--gold);color:var(--text-on-dark-muted)">Take these to your next board meeting</p>
+        <h3>Three questions nobody is asking.</h3>
+        <ol id="boardQs"></ol>
+      </div>
+
+      <div class="next">
+        <div>
+          <p class="eyebrow" style="--tick:var(--electric)">Where Gamut would start</p>
+          <h3 id="engName" style="font-size:22px;margin:12px 0 8px"></h3>
+          <p id="engWhy" style="font-size:16px;color:var(--text-muted);max-width:52ch"></p>
+        </div>
+        <div class="map-actions">
+          <button class="btn btn-outline" id="saveBtn" type="button" hidden>Save the map</button>
+          <a class="btn btn-accent" href="#contact">Book thirty minutes</a>
+        </div>
+      </div>
+      <p class="notice" id="mapNote" hidden style="margin-top:24px"></p>
+    </div>
+    <div style="margin-top:22px"><button class="btn btn-ghost btn-sm" id="restartBtn" type="button">Start a new session</button></div>
+  </div></section>
+
+  <!-- ══ HOW IT WORKS ══ -->
+  <section class="band" id="how"><div class="wrap">
+    <p class="eyebrow" style="--tick:var(--electric)">How this works</p>
+    <h2 class="sec-h">Most strategy sites describe the work. This one does some of it.</h2>
+    <div class="grid3">
+      <div class="step"><span class="n">01</span><div>
+        <h3 style="font-size:19px;margin-bottom:8px">You answer four questions</h3>
+        <p style="font-size:15.5px;color:var(--text-muted)">The same questions Michael opens a board retreat with. They follow what you actually said, not a script.</p>
+      </div></div>
+      <div class="step"><span class="n">02</span><div>
+        <h3 style="font-size:19px;margin-bottom:8px">We read your gamut</h3>
+        <p style="font-size:15.5px;color:var(--text-muted)">Five bands, scored. Where you&rsquo;re strong, where you&rsquo;re stuck, and the pattern underneath both.</p>
+      </div></div>
+      <div class="step"><span class="n">03</span><div>
+        <h3 style="font-size:19px;margin-bottom:8px">You take it to your board</h3>
+        <p style="font-size:15.5px;color:var(--text-muted)">A one-page map and three uncomfortable questions. Useful whether or not you ever call us.</p>
+      </div></div>
+    </div>
+  </div></section>
+
+  <!-- ══ THE FIVE BANDS ══ -->
+  <section class="band" id="bands" style="background:var(--sand);border-block:1px solid var(--border-subtle)"><div class="wrap">
+    <p class="eyebrow" style="--tick:var(--gold)">The five bands</p>
+    <h2 class="sec-h">Our name is a colour gamut. So is the diagnostic.</h2>
+    <p class="lede" style="margin-top:18px">Every institution has range. The question is which part of it has gone quiet &mdash; and whether anyone in the building has said so out loud.</p>
+    <div class="grid5">
+      <div class="card"><span class="edge" style="background:var(--coral)"></span><h3>Purpose</h3><p>Can everyone say why you exist, the same way?</p></div>
+      <div class="card"><span class="edge" style="background:var(--gold)"></span><h3>Alignment</h3><p>Does your board agree on what to stop doing?</p></div>
+      <div class="card"><span class="edge" style="background:var(--electric)"></span><h3>Momentum</h3><p>Can a decision travel from the room to the work?</p></div>
+      <div class="card"><span class="edge" style="background:var(--indigo)"></span><h3>Relevance</h3><p>Do the people you need next know you exist?</p></div>
+      <div class="card"><span class="edge" style="background:var(--teal)"></span><h3>Capacity</h3><p>Can you sustain the version of you that&rsquo;s coming?</p></div>
+    </div>
+  </div></section>
+
+  <!-- ══ PRACTICE ══ -->
+  <section class="band dark" id="practice"><div class="wrap">
+    <p class="eyebrow" style="--tick:var(--coral)">The practice</p>
+    <div class="bio">
+      <div>
+        <blockquote>&ldquo;A strategic plan nobody can argue with is a plan nobody will act on.&rdquo;</blockquote>
+        <p style="font-family:var(--font-mono);font-size:12.5px;letter-spacing:.12em;text-transform:uppercase;margin-top:22px">Michael Brooks &middot; Co-founder</p>
+        <div class="ticks" style="margin-top:20px">
+          <i style="background:var(--coral)"></i><i style="background:var(--gold)"></i><i style="background:var(--electric)"></i><i style="background:var(--indigo)"></i><i style="background:var(--teal)"></i>
+        </div>
+      </div>
+      <div class="creds">
+        <div class="cred"><b style="background:var(--coral)"></b><span>Co-founder and partner, <strong style="color:var(--white)">Gamut Purpose Partners</strong> &mdash; strategy advisers to nonprofits and cause-minded companies.</span></div>
+        <div class="cred"><b style="background:var(--gold)"></b><span>Former Chief Strategy &amp; Digital Officer, <strong style="color:var(--white)">ChildFund International</strong>.</span></div>
+        <div class="cred"><b style="background:var(--electric)"></b><span>Former Senior Vice President, Strategy &amp; Innovation, <strong style="color:var(--white)">United Way Worldwide</strong>.</span></div>
+        <div class="cred"><b style="background:var(--indigo)"></b><span>More than <strong style="color:var(--white)">200 facilitated design sessions</strong> &mdash; boards, executive teams, youth social entrepreneurs.</span></div>
+        <div class="cred"><b style="background:var(--teal)"></b><span>MPA, George Washington University &middot; MDiv, Yale.</span></div>
+      </div>
+    </div>
+  </div></section>
+
+  <!-- ══ WORK ══ -->
+  <section class="band"><div class="wrap">
+    <p class="eyebrow" style="--tick:var(--teal)">Recent engagements</p>
+    <h2 class="sec-h">Strategic plans, value propositions, and the team work that makes them stick.</h2>
+    <div class="work">
+      <span>CRS</span><span>PHI</span><span>Bishop Sullivan Center</span><span>Our Stomping Ground</span><span>TPCA</span><span>Readers 2 Leaders</span>
+    </div>
+    <p class="meta" style="margin-top:20px">Strategic planning &middot; Value proposition &middot; Organizational &amp; team development &middot; Facilitation</p>
+  </div></section>
+
+  <!-- ══ CTA ══ -->
+  <section class="band" id="contact" style="padding-top:0"><div class="wrap">
+    <div class="cta-card">
+      <h2>Ready to say the hard thing out loud?</h2>
+      <p>Run session zero, or skip straight to thirty minutes with Michael. Either way you leave with something you can use.</p>
+      <div style="display:flex;gap:12px;justify-content:center;flex-wrap:wrap">
+        <a class="btn btn-ink btn-lg" href="#top" id="ctaStart">Start session zero</a>
+        <a class="btn btn-outline btn-lg" style="border-color:var(--white);color:var(--white)" href="mailto:hello@gamutpurpose.com">Book a call</a>
+      </div>
+    </div>
+  </div></section>
+</main>
+
+<footer><div class="wrap">
+  <div class="fgrid">
+    <div>
+      <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAfQAAAENCAYAAAD5S5dbAAAACXBIWXMAACr6AAAq+gHuKIAIAAAgAElEQVR4nO3dX2wd1YHH8TGBsCrgrLTdartxWvWBFjZ5221Sm30BkuLsC02A+ClNYOM80D8JsFJpojjEESmVyj+1IBWn5U9WqhwgKU8YSNk3uxipfUkKlfqya9OuRFU2QVVbCnj1GzxhfHxm7sydM3fOHH8/klWaOHPnnvnzO+fMmXP6FhYWIl/98V+/cU8URXd7u4MAAHjiEg4EAADtR6ADABAAAh0AgAAQ6AAABIBABwAgAAQ6AAABINABAAgAgQ4AQAAIdAAAAkCgAwAQAAIdAIAAEOgAAASAQAcAIAAEOgAAASDQAQAIAIEOAEAACHQAAAJAoAMAEIBLXX6Fvt1vr4uiaMDV9n7Q9+nPXv3n/13tansAAPhiw2ULf11zSbTganecBnoURTuiKLrb1cbuveTqKz/x+99f4Wp7AAD44sQn33/nussX3nO1O3S5AwAQAAIdAIAAEOgAAASAQAcAIAAEOgAAASDQAQAIAIEOAEAACHQAAAJAoAMAEAACHQCAABDoAAAEgEAHACAABDoAAAEg0AEACACBDgBAAAh0AAACQKADABAAAh0AgABc+n8v3zDo6mv8c//ez5595x9Wu9reqg//Z1Xfwh/6XG0PAICu9f1NtBB9YsHXArw0iqLnXG3s3z711JVzb62+wtX2+t57+5K+vxLoAIDmLay6eiFa9XlvA50udwAAAkCgAwAQAAIdAIAAEOgAAASAQAcAIAAEOgAAASDQAQAIAIEOAEAACHQAAAJAoAMAEAACHQCAABDoAAAEgEAHACAABDoAAAEg0AEACACBDgBAAAh0AAACQKADABAAAh0AgAAQ6AAABIBABwAgAAQ6AAABuJSDCAAoa2TH9mhkx7ZK5bb91p2Uu0MEOgCgtHXr1kaDgxspOI/Q5Q4AQAAIdAAAAkCgAwAQAAIdAIAAEOgAAASAQAcAIAAEOgAAASDQAQAIAIEOAEAACHQAAAJAoAMAEAACHQCAABDoAAAEgEAHACAALJ/aA1pmcN3A2viDpmdmA/+23env7482rL/m4r+dm38rmpt7q11fomFDi0tZ+lJ26fP+7Lk3owsXLjS+T0DICHSH1q+/Nhoa2hgNDW6Kb2br/+mazI1fePfd6NzZN+KAP3vujWhq6kzujuhmPTS0qeudnZ5+rdHKhPZ//YZro3UDA3Fw96/pzy0f0/z8b6O5ufmLYaXv42NIjOzYHh/7bk2ePNUxjJNzQf+7bt1ANDDwj5m/e+5Xb35UXjOvRdPTs9G5c2+4/sql9qdX+9SNqsdO30nHzyXtj/ariiLnFMJAoFeUXHD66XQjS+u/6qpocHBj/BMtBrxC/XsPft968emGec/dX6+0s70MdLW4tw5vjob1c9ONlbenstXP4OL/T8pC4aBQ0E3Lh2AY2bHt4jHthioqtuOv82x0z+5oZGRbfO4UpUqTfpJjoIrRE8efiiYnT1eqDCm8R0a2x8e3zP5EGfv04tSZaOL4U40GT9VjNzMz6z7QB9ZWv+4zzimEh0DvkgLr6PiBaMdt29xs76qr4m3p5+Szp6NDY8da2UWpctk7uisaHd1V+kbfjSQcRvd81VlY+cT1eaZK0fh9B6L/uOcb0cTE03EFsgxVXPVvy1Rei+yTjp9+dO5nVWrRe3k9BEMVKj8JnUtFNd3L2AYEehfUKnn0kQdqCyzdvPUZ+/bf27Er3ie6OHsV5DZVw8o3Kkt9lzrKU9tUyy85zzr1bujmPT5+sNRjkm4k576OnY4hmuWihyBP2W0T6PkY5V7S+JGD0ZM/eqz20NL29Tn6PN9p7MCZV16IL86mwjwtCavXX/uveN/aRq1yVRhVOam7PBXQp54/kfucVufg88+dqD3ME/rO+u4qAwDFEegl6AajbsFe0uf5fGNTECgQenWzL0Mt9jMv/7TyoKJe0mBBlaerLvYiFKCPPPydZeWkioUqar0+5xMqA32+9gNAZwR6QQrVXt5k0/S56n71jbqDFQQ+tMrzaB/b0trTfjZVOUqHuno2Xp99tfGKmj6fljpQDIFegMK0qTBP+BaausnW+WzNNR2/MgNwmtL0cR4fP3Cx18WXc06j4Ql1oDMCvQO1VPQ8Dx/TM9WmKzjdSAaBIVvS/e5bBTIZLAcgG4HewdEjhLnJl4lAuhG/ncAz2Vbi2AH5CPQcQ6mJX/AxTZ6x/65vt7JE1PLUe91oH44dkI9Az9GGZ65NaXOoq/u2yhSfaA7HDshGoGfQs3Na5/naHOpU1tqLYwfYEegZ2vTucpMU6pu//JV4LvoqNA92+qfq9jphgFV7qZXOs3RgOaZ+zbC1xhu+FhS5cH7pXONt7g3QILntt+ws/KpTshCNFuTQwip5865rHMPw8Jb4eLicP1z7qVBv09S6iRlj+suyK9fVIVkNL02r69U1Wl6L1DA1LLAUgW6hZ3QuwyNavOFpfmqFWFaAKWD27tnVynAvEupJGZRZkUpzN+tn7PD9ca+J3pN2FRJa5rYtga5FS3TuZO1vsrqd64VT8qhiplDNW55Tj6721jCPw9abNhPoPaBr79Nrv2D9IJ1rVeeiyNo2ukOXu4Xr+b8ffOgH0Rc3XR/f+PJao7pZb791Z/xcuu4u5zokoW7b94njz0Q3brm50vKS+rdf3HhD3MPhgtZl950qQXqk0WmhHp1Xcflsuj4+3+o29dLP4mPRaWU0nRPa941fcnfcosUeLbrdgaUIdIsNDgNd4Vx21S/dmBWMbWQLdZWBWtguljTVNrIqDWX53hOiAFQlqOx7/zrf6hysqN6C2++4s9TxVOjruLkM9TZUyIBeItAtXLXQ1YrptkWqm/jYfcec7EevpUNdwVKlVW6jIBkbc1M2vr4CpZZ5XIZdVoJU5nWcPzqn1eLuRlIZcxXqQ0ObnGwHCAWBbrGm380zWrVKq9AzQt3Y20ih/oVr/sV5mCe0XRdlo/WefbRv/7cq92jo/DEH0FWhClq3YZ74qDJW7bpI8D46sBSBbqHRuVWpWzLv2WJRZbvrV5IXWzhCvYiZxYGALrg8f1RBcPHYZHrx9cSqfK2MAU0h0C1cjKJ2FTahhpYL0zOvVd6KXvnyzeTJ0w7LaNZZL4/L3pYnjjNCHXCNQK+Jq9eh1CJy2W0aEvNd/m64HADpiutKnIvt6bm3ix6nhOYfqMpFTxoQEgLd4OK5nMuRvHL2nNvtwV9qTbvo1k5z0ZPhIoDT9B2rXie+LfEKNI1AN7h4LueyJRO1fLlSlGPOtuaCi54M15WMyNF+AfgYgV4D1wFcx00eK8fcvNsKpiv0PAFuEeg1OO+4NePrDRnt4LrHyJU6Wv3ASsZc7jU4d9Z1C729ga4xCZozXZP1aGYvHxYSAYAQEehwTiE+ume38xXSAADZCHQ4oyAfP3IwGr7pRgoVAHqMQEdlWvVKSymO7vkqhQkADSHQUYla5U/++HGeiwNAwwh0dE0D3U49f4IJPgDAA7y2hq6om50wBwB/EOjoCmEOAH4h0Gvg4wpeLmkAHM/MAcAvBHoNXK/gNTS40ZNv9tEguHvu/roHewIASCPQUYpa5wAA/zDKvQauW9RDQ5u8+F5qne+4bZuTbV149914SU4tZDM93d3ynloPe/y+A072BwDajkA3uFgBat26Aaf75GKNdheGhzc72c6DD/0gemLiaRbnAACHCHSDi5DR/OUKYVeLqmhxEx9svalaoKtVvv2WnazvDgA14Bl6TVy1ZjV5iy8LnAxWfJTwvQe/T5gjWHoEBDSJQLeYn/9t5W2M7NjuZF9cbaeq9RVH7qtMJyae9uGrALWoY14GKgkog0C3mJubr7wNvadddXCcZmMbGXEzCK2qNf3VblYvTp3x4WsAtXI9IHbdgNvxOAgbgW4xN+/m2fejj3w3DuXu//0D3szGVnWyHAbAwXfnL7xbeQ9dt6i3Onp0h5WBQLdwNZhNz74Vyt3Qv/NpXXHXk+W44MvrfAiDi/Ede/fsdlYWau37Mn4G7UCgW3T7XrSNQvnMKy8UfvVMLXotR+rqfe+QVX2uD7imAHY17mUlTOJUpQcTyxHoFtMzs063p+fpsz9/NQ5qXexmuOuk1qh4tcpfn33Vq5Z5omolx/W79CqzoSF/psRF+5119AbG+PiBykGl+0TVt0raYMN61oRwiffQM8zMzDq/oBTUPoZ1L7h6jS+xd3QXq73BKVeP2nReajVCzbnQzdgR9TypUrASaMyB6wbUSkYLPcOLLzEqO63qgCHd5EZHdznZF7VeWCAGrrmcI0G9cgr1sj1TOrfbsjSxi0eTGnNAt7s7BHqGycnTXu5XU1zc7DTvetXni6oUPPLwd5otDARrxmFrUaGu8TN6Ft4p2DUA7tRzJ+JzeyX1PGnMQVyBIdSdoMs9g7rKTj57msFpKed+9WblddB1w1KXomaNK9MdqYrAyI5tK+K5IpqjnjmX55jCWb1J+tH1o4pxumtf14LGgrQxxF11leueorFDU1Nn4nEM587aGw96ndjVY5FQEeg5FDoE+se0OlrVQJfRPV+Nf9Qa0k1BF/GF80vDXc/W1mjg2+BGQhw9o1CpawU/XTsurh+fuKjkR4sVH91r8+63WtRJ92RkI9BzqDY4cfyZOHwQRZMnTzkti0HCGp7RNV/HgNhQ6Z7AEsb+4Bl6B6oRupjbPQTqLqQsELrJk4yfKWqKKZ29QqB3oOe8u++4M176E1H0xPGnKAUETa1OKq7FJD0a8AOBXoBapmNjxxr7fJ8qExr9T+UGodu3/1sc44J4ru0PAr0g1dr33/Xtnn+uwlMTVPhCPRZNVm6AXtBgzamXfkZZF6Cy0htBaB6BXoJC/ZZbd/ashapuP4W5ywkvXFA5cLND6Pbtv5eu94IOjR2jrDxAoJek2ugXN95Qe6Bp+zduudm7ME/oZqdXVoBQMX6mOMrKDwR6F3Ty3n7HnXFr3fWAEG1P29X2fV5DPCmDJi9gfTatAtRJFep4TvaGznN1Zbdl0FnTZQUCvRK11rffujPa/OWvxBdet+GiC0D/XkGu7bVlsQKNcFVvRRMtdX2mPntubr7nn42Vpamg0kQq6glrE0K9WUws44BO4uTC01SOG9ZfG8/drP9e02+f0vHsuTejufn5ePY1X7vVi1BLXRew5qvu1QQ8muxn7PD9PfksIFq8xjdvuTl69OEHap90RmGo+0lb3/HuZVlhKQLdMZ3MbQ7obsQj3w/fH01NvRIHe10XsboeDx0+tuLKF35Qj5R60LRAkM7zOuZfV2W17DoHPkrKSssmHz1yMF6EBfUj0OFM8ghC86+PjGyPL+aqNz21VtRSmZw8xbrJ8MLExNPxfAwjI9vi5T+rhpXOcW1v4vhTwS0+omtXP8k9YWhwE+FeIwK9BcquqWxzvoc1/unFRVeixWUhh4Y2xf/bv6a/40IOurlptSU9kpieea1jt6Om6awS9C7WdHa5P3Xd0PU8tgrX5RTVtM1eUQtawa4fPVrbOrw5Pse1qFCRSqzGgOhxWy/Oca1S1rT0PUH3s3UDay8uwFRUm8+XXul756XrnR3th2ZXX/nDX66+wtX2+ubfvqRv/g99rrbXVmrpPvmjxyrt/S2eDbYzxxewNCJCMpTx2InzvN0WVl29sLDq8x+6+hInPvn+O9ddvvCeq+3RQm8BdVOFhufgCBmPh9AEXltrAXXnVcUNBgDCRqB7Tt3tVQeRMPkKAISPQPecXo+pSgNvAABhI9Ar6O/vjx595AEno9BtFOadRoUXodG0AICwEehdUpifev5EtOO2bdGZV17IHNXarZEd26N77v66k2292NIZp4C2OvXcieh3b/364o/+P1A3Ar0LSZgnrWe9d/r8cyei8SMH47+rSjNRPfLwd5zsq1Zta/usUwCAzgj0kswwT9Nc5q/PvvrRtJBdBLta+arJj993wNn+Tkw85WxbAAB/8R56CXlhnlBrXV3l+lHrWAPSNPNZ1mtjyexS6mJ38bw8TaPbeV0NAFYGAr2gImFuGr7pxvinKYdYkQwAVgy63AvoJsybppXJ2rr8IgCgPAK9gzaGebye8l33erAnAIBeocs9RxvDXMbGjhVeAELfccP6pd8vWUBC79drprr0ikh6Ba7IPOzm4itRzvSzyepLRX7Xtr9amS0Zya+/11S52qa+w+TJU0t+13y98PyFd+Pvk/53H2/3ja57OVRuG9Zfu+TPtD8qv27eOrDtX1TieNgkq4SZ+6hxH3UsIGKWfXKe2b5bt99L29DaB+ltaaVBzcVQdHvdnmPp76eVBZdsc03/su+f3maiF2UUOTr25jWeXEu2z1AZ5W03WZUxTdefjhtv6RTHamsZ2hrmJ589He3bX7x1rgvpeeMdWS21qYsv69U5DfbTZ+RdaBqtP2jcnD699gvW39VbAeY791m/a9tfrSSnm6O2ozcNEjOL67On6Z3gNP3OocPH4mNtW/ZSy1zquxa9cWpw4/j4gdwlNCeOPxONFRzfoPPQ/F4mDX7ct/9bhQdAqgwffeS7uVMKax+/9+D3nd5MzbLXeaYlMZ988nFreenY7L7ja4X2QeV0dPxAPC9EluRYdzqWWeeYyjc+FqO7Lu5v+hwzv18nthUQbWWkazHrnCr6ndLfzdWxN6/xpCxsn5G12qMqvkePHMzcH/U2aola7Y8PfF9tjS73DLo5hB7mWXSR5b0Hr4F+CkBfqPWj/ckLvSzr1g1khrnoHIgrdkZr20bzEKjcOq2Hrf3UZESdJJXKTt9LN0MFkCoTneh39Lud1gfQZ8bl4mBehSwq06wwF4XFz155oeM+aDt6XTQvzJPtnXn5p/H53Q3NCqmKZ5H1zl1JrsW8MtJxKjJbZS+OfdHPiBbLU8tC5/1u8tZQkesFBHomBaMCsi1chXm0GGJFfsfFPPMuqIbfbeVLN5NON2j9/dEj+XMDqFVSpkJRpPzK9hDpxp83Y6Fu+mrpldlH3XTroophp7LX8TnaYZ+1j2VCtpvpmsfHD3asMNShyPHXd3/04fzj1M2x71Tuy/7NhmsLT4ilXo4y5an9UYUZ+Qj0HApIdXn5zmWYm9S9rh8bXZQ+qLoaXUJd1ypLdfOZ1BLKa6Xrhp9VflnbjFt7Ga2grHkJ1K2pLtGsFfTyKgnxhEcZ3bb6sW1ToVukd6IqPdrIOs90488qJ52DtnJSeavcbdtUGZStjBYJVt0rkh+zLPX/038fd6XPF3/aqX+v455VRp3Oz26Ovcq9TMWnaKUqeYxkSr7jTMajI1WY61o3IxQMiutAz270nK/Tc6em7L/r28sGfrmgG4ee8yYDWWzPFXUB6899mbxG+6zjVXagkMJkbOz+i98ja/yEBvjYtq0bqfm7CpTtt+y8+PtZ2xwZ2RY/IzTZbnjpY61jo+5Ys3Wa3Nht+2nrajafbWp7ZstJlYuiz/zLMp8Ba99tj0BU9rbz3PaYwXwGrG2qq71TWRSh/Y3vCZZzPv2cV9dF+n4xNzff9XNgs8KeV0ZZ5775fc3zM8o49qN7dpc+9tq2BuZmDQDVOW/uuzkuJ+5ROHJw2Twe3ezPSkILvQBdvDduudmr1rpCaPOXv1JLmKumfPsddy4ZlTq92DI0qZvNB7rpaZ+7GfWrG0n6Bq2bigLelNWdPTS0/M91Q0vvi7ap/Vu+zU3L/kw3M7PyqO9nHmuNwNfnFNkfhYB5E9XxNINJZWG21mzbc0WD3tLlpP+2faes1qdZQYorZ4fvXxIk2qb5+CypjJahbWzPGNxVF4XjIaM8ssooq/Wq77ns2E88vexasR17c7R/J0lFQedq1qC6rTctr0yZg2x174n/zOjZKrs/Kw2BXpBONtWwN37phkafreuCU0tt85abu35lpZOs9dOnpl5Z9mfrBgZq2YcyPhrl3d0jB/1bWznqpm3eTDSAzsZ8PS3KWOFONykFztJtLr8Jm6/wRTlL4NqO1RpL97QtlG3HM7Lse12DQ9Xatd30bWVnu5HbAjnrNcOqKw7agrUXNG100TKynTdRRqVbvY425vlkvqnSiVmRLbI/WeeB/kzfv8r+rDR0uZeU1BwV7uru008vuuIVBKpV19EiN2W9L2prmfhQY65ys1ZXaBbdTNI3kKzjbN5IdfPPap2obNMBWTQss1pf2p75zNF2/Gwhn9XStO17Vjd+HfT5qmh1uq703nOR7x5/p/PLv5Peey7a2p6cPN3I+9BljlGWMsfeVn7J+/ZFFLk/mb0FWRXlaPFdfRRHoHdJJ7hCXT+62SnY1Qpy2ZpRiKtlpoukVzfTNvKtbMxWxZK/O/dGV/P753UPm+/a25QZ2KbWmzkvgDlJUN1U0UoHuq2VqbIs8t1daPPkJmUeLZy1XEuqsBYJ9KzBbCazsqb/zqo08Ly8HALdgfiZ1uKJl8wypdp/esapvK4ineC6gSUzLfk8Q5IqGb69n5/Xyq5CrZgiXXxVuwHNm5lt9LM+o8oAxF4Hsmu9fPd7JbP1ZLim+5vZ+6JBoHW9qbOSEOiOKYR10w112dJeXPArjdkCSrrRzYqC3jLQwMwnJp7ueWUv7hZlKd4gmOM4OjGnsa1K4xzMXqr4FbmBtZlvEKAYAh0ooczzxCp0YzNfE4wW313Xu9caT1E12LO6Ym3d2216/9c2F7svb2P4osyx16BPlys36hGibf6AwcVXY/NeDUQ+Ah0ooejzxKp0M9PbDLaZt5LpMKsGu63C0GYqj717dns5X4RPFKRNH3u9wnnquf+0HiuCvXu8tgZ4Si0ZTfySNStcEuyax9yXWfuaoBa55voev+8AYd4SqhRrbo+sme+iVLDHkyfVuKZASAh0wGPpSY1s08dGi8GuMKtz3nVftXVVRHw82ZIqrXkj5PV8XYv09GIK4rajyx3wXDKpkbrW947uWrJ8Z5pufMnrlEXcUuKVrzLzjveSRkfbpt3Vo4j05Cl6NqxKDz6e6tiXYz+dWnZVayLYKmfqeVGFVbPQsT56NgIdKEGvFjbFDHbzXfFocdCcuuqLPOdv+7NJtc7NFe5sc5RjOR+PvfZJM2BqTg9V1MzHJwp6nfe+rI3uI7rcgRJ8CIok2DWXv60bvsi66CGwTWdrm6McS/n+eEIVUj1msnXDr5Rzu1sEOkpx/U4qum/1Zy3SUXbRkbYqOoc+2keVVi3cY0pmlYMdgY5SVtLgo6KDcMpO1LHs31doUdoWZ7G9S9zko4K62G7stM7DoVC3tdKzFqEBgQ5kKjpdqjl7Xt5iE0UqCXp++Lu3fr3kJ4ttBTfbgDlb0GW9CqQWvvn5vW71m2XY9ht7k6uE2Z6XN3Xsbdu3rf2fePElelzKINCxTNbFbgujrNWQbC3CrO022YWWG75GSzfrfXBzFLC6BYt+16Kt+zI3Vdt+nreMDM5aKa/pWdVUdkXeJ7cFVea66R7MFNfUee7TsbfdL/LKxbZSHLIR6Fhm6/Bma6HY/jzrFRJbizBru0ODmxo7CFnP5BSgZks3axEY2wpVtu+qzzEfWdhGo9u2NzJiHwxk26bt39tWgMvapu141PHqksLDVvGxlV3RZTRtA+Xibd5kP/fqYtvf0T27e7oPCduxHx7eYv1dWzm5PPa6X5gDOYeHN+f2GJhYUjUbgY5lknc+0xeZWj622cjS7/qm2VoF4+MHlrWg9DlNz+715I8fXxLq+t56H9aU9aqPVsYzqRvRvEmNH7Ftc3n52band8zj989T29R/a98LbXNmdtmNVNtMHw9tT/ttLpzx0WqA7gNdFaaj4weWlL3+W+eJyVZBtJ178XvpxjmmkdG97vK2HQO9Yqfj1esJUmzHXvuS3g+Vu8rOLKc6jr05L7zOA90HbPcGc3/Uo8V76Nl4Dx1Wutnr5+Szp+O/1n+bdJMoE3K6cDWrly5o3SRUM/dhkJ32Yfbnr8bPaVX7VwvRVsnIGkGtsLGt8awpWScnT8c3IIWKbZu2RS/0+yp3s8w1MYp+kmMSt2yMXgQdE32mjT7L3OaZl38aT7+pz7Qd42jxNaK6JOeZ9kHnxMjINusYgLxKSvr3k3MsKXeFRDfrz1elsjbPCdG+JPuj2f969U61T8d+cvLUss9LykWBrXtH1jWo1xKRjUBHrqwLPepwcSnkbEuA6oabt80maV+zWnK60eSNoD50+P7oyR89tuy7mhOfpE0cfyaz9XNo7Jg1sKMOx0RrSme1YBQetm3mBZ5C6Yke3ETz9kEVmKxyUnCbZdyp3HvFdk40xadjr4qYzn3bMVLlOquSr/tJnZXLENDljmWy5gxPU8B1utj33XVv4W01RfvXaR/19wrKPGoBJS3nIvSd81pnCuV4mssC5ZfQ6mx5y1wqFG3vred979133FlbF2eR76bfySsn/V2R80cB0ms6FjomZY5hXXw79mOH7y913et3be+lYykCHcuo5a3uwCyqKReZU1k3kXgazpwLt1MI1U0DhvKCs8xUogr9vEVUEgr+IuWnz9ycMWNWmlpSt//71wq1Xjqt4JZIjnGd73Wr7HX8M//+V2/G+5D3DDep+OSVkcpbAdIElbeOofah6WDXvug88eHYy+YOiw4lVBljDvdi+t556XpnIx4eml195Q9/ufoKZzs3//YlffN/6HO1PSw3tLhEYVrybE/PH/UsKxlpqufLepbZTQAPx9vZdPF1menF7jPdrDUgx3ynOOvZvAZuma/caL+KXuzmO90ziwtDaB+SfdT75xrZq2d5em5e9kaifVS5qfySfdX2NPo8GT9QVnIs0mU1HT/zf6PrCpG+r2ZbS46vXjXUTVzfuY6beV7Za4xB+jzT55ftXtW/HxratGQ7U1OvXDyXzBHTOia2Y2E7x7J+t6z08bNts+g+2n43OX5FuDj2OifTczWU+fw02/WiYzc3P9/19VKXhVVXLyys+vyHrjZ/4pPvv3Pd5Qvvudoegb7C5QV6iLJCBfWj7NF2vgc6Xe4AAASAQAcAIAAEOgAAASDQAQAIAIEOAEAACGlMOKEAAAI7SURBVHQAAAJAoAMAEAACHQCAALA4ywqn2Z3MaTN9mpnJNfO7srZy71D2QL0I9BVOUzWupNm6mJmsOZQ9UC+63AEACACBDgBAAAh0AAACQKADABAAAh0AgAAQ6AAABIBABwAgAAQ6AAABINABAAgAgQ4AQAAIdAAAAkCgAwAQAAIdAIAAEOgAAASAQAcAIAAEOgAAASDQAQAIAIEOAEAACHQAAAJAoAMAEAACHQCAABDoAAAEgEAHACAABDoAAAEg0AEACACBDgBAAAh0AAACQKADABAAAh0AgABc6vNXWPjU3y4s9H9iwYNdAQCscH+5bPBPf75sy59clcILf/71gev+OHvW0ebOeR3o0erLFqLVl3mwIwCAle6D1X/3wV8u/9x7rorh8ehzZx97aueMq+3R5Q4AQAAIdAAAAkCgAwAQAAIdAIAAEOgAAASAQAcAIAAEOgAAASDQAQAIAIEOAEAACHQAAAJAoAMAEAACHQCAABDoAAAEgEAHACAABDoAAAEg0AEACACBDgBAAAh0AAACcKnLr3DrNe//6UtrP3iPEwMAEJrfvPuLn+z7xS0/cfi1zrksIqeB/pn+Dz/4TH/0gcttAgDgg6HoN//9zW/+/YyvB4MudwAAAkCgAwAQAAIdAIAAEOgAAASAQAcAIAAEOgAAASDQAQAIAIEOAEAACHQAAAJAoAMAEAACHQCAABDoAAAEgEAHACAABDoAAAEg0AEACACBDgBAAAh0AAACQKADANB2URT9PzglhTCzCIy2AAAAAElFTkSuQmCC" alt="Gamut Purpose Partners">
+      <p style="max-width:34ch;color:var(--text-on-dark-muted);font-size:15px">Strategy advisers to nonprofits and cause-minded companies. We help institutions find their purpose, inspire their stakeholders, and do more good.</p>
+    </div>
+    <div>
+      <p class="lbl">Practice</p>
+      <ul>
+        <li><a href="#bands">Purpose distillation</a></li>
+        <li><a href="#bands">Facilitation</a></li>
+        <li><a href="#bands">Overcoming Organizational Inertia</a></li>
+        <li><a href="#bands">Strategy development</a></li>
+      </ul>
+    </div>
+    <div>
+      <p class="lbl">Start here</p>
+      <ul>
+        <li><a href="#top">Session zero</a></li>
+        <li><a href="#practice">The practice</a></li>
+        <li><a href="mailto:hello@gamutpurpose.com">Contact</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="fbase"><span>&copy; 2026 Gamut Purpose Partners</span><span>Full range. Single purpose.</span></div>
+</div></footer>
+
+<script>
+(() => {
+  "use strict";
+
+  /* ── The five bands. Spectrum order, straight off the mark. ── */
+  const BANDS = [
+    { key:"purpose",   name:"Purpose",   color:"var(--coral)",    ask:"Can everyone say why you exist, the same way?" },
+    { key:"alignment", name:"Alignment", color:"var(--gold)",     ask:"Does your board agree on what to stop doing?" },
+    { key:"momentum",  name:"Momentum",  color:"var(--electric)", ask:"Can a decision travel from the room to the work?" },
+    { key:"relevance", name:"Relevance", color:"var(--indigo)",   ask:"Do the people you need next know you exist?" },
+    { key:"capacity",  name:"Capacity",  color:"var(--teal)",     ask:"Can you sustain the version of you that's coming?" },
+  ];
+  const TOTAL_ANSWERS = 4;
+
+  const PERSONA =
+    "You are the facilitator for Gamut Purpose Partners, a strategy practice for nonprofits and " +
+    "mission-driven institutions. Voice: confident, plainspoken, warm. A senior strategist who respects " +
+    "the institution's history and is unafraid to say what needs to change. Never corporate-vague, never " +
+    "cutesy, never reassuring for its own sake. Sentence case. No emoji. No jargon such as synergy, " +
+    "leverage, best-in-class.\n" +
+    "You are running \"session zero\": a short diagnostic reading an institution across five bands — " +
+    "Purpose (can everyone say why you exist, the same way), Alignment (does the board agree on what to " +
+    "stop doing), Momentum (can a decision travel from the room to the work), Relevance (do the people " +
+    "you need next know you exist), Capacity (can you sustain the version of you that's coming).";
+
+  /* ── Scripted fallback: a real diagnostic when Claude isn't available ── */
+  const SCRIPT = [
+    { q:"Who else in the building would say that out loud?",
+      chips:["Almost no one","My deputy, quietly","Everyone but the board","The staff say it constantly"] },
+    { q:"When did you last retire something — a programme, a message, a ritual? What happened?",
+      chips:["We haven't, in years","We tried and it came back","We cut one and it hurt","Last year, and it went fine"] },
+    { q:"What would have to be true a year from now for you to call this fixed?",
+      chips:["One clear answer to what we do","A board that decides","Funding that isn't a scramble","Being known by a new generation"] },
+  ];
+
+  const SIGNALS = {
+    purpose:   [/mission statement/i, /why we exist/i, /who we are/i, /identity/i, /purpose/i, /everything to everyone/i, /vague/i, /what we (actually )?do/i, /too many programs?/i],
+    alignment: [/board/i, /consensus/i, /disagree/i, /agree/i, /leadership/i, /exec/i, /silo/i, /turf/i, /yes to everything/i, /committee/i],
+    momentum:  [/stuck/i, /slow/i, /stall/i, /drawer/i, /nothing (changes|happens|moves)/i, /inertia/i, /bureaucra/i, /decide/i, /years/i, /can'?t move/i],
+    relevance: [/under (forty|thirty|40|30)/i, /young/i, /millennial/i, /gen z/i, /nobody knows|no one knows/i, /relevan/i, /audience/i, /awareness/i, /donor/i, /brand/i, /ninety|90 years/i],
+    capacity:  [/stretched/i, /burn(ed|t)? out/i, /capacity/i, /staff/i, /hiring/i, /turnover/i, /budget/i, /fund(ing|raising)/i, /money/i, /reserves/i, /volunteer/i],
+  };
+
+  const ENGAGEMENTS = {
+    purpose:   { name:"Purpose distillation", why:"Your range is fine. What you can't do yet is say it in one sentence that survives a board meeting." },
+    alignment: { name:"Facilitated board or executive session", why:"This isn't a strategy problem. It's a room that has never been asked to choose out loud." },
+    momentum:  { name:"Overcoming Organizational Inertia workshop", why:"You know what to do. The work is dislodging what's holding it, and that's a session, not a memo." },
+    relevance: { name:"Purpose distillation", why:"A new generation can't find a reason to care until the reason is stated in their language, not your founders'." },
+    capacity:  { name:"Facilitated board or executive session", why:"Capacity questions get solved by deciding what to stop. That decision needs a room and a facilitator." },
+  };
+
+  /* ── Elements ── */
+  const $ = (id) => document.getElementById(id);
+  const hero = $("hero"), sessionEl = $("session"), mapEl = $("map");
+  const seed = $("seed"), startBtn = $("startBtn"), starters = $("starters");
+  const thread = $("thread"), answer = $("answer"), sendBtn = $("sendBtn");
+  const answerBox = $("answerBox"), answerChips = $("answerChips"), progress = $("progress");
+  const fallbackNote = $("fallbackNote"), mapNote = $("mapNote");
+
+  const state = { answers: [], questions: [], live: null, busy: false };
+
+  /* Resolve the capability early; it asks the viewer nothing. */
+  const samplePromise = (async () => {
+    try { return (await window.claude?.use?.("sample")) ?? null; } catch { return null; }
+  })();
+  const downloadsPromise = (async () => {
+    try { return (await window.claude?.use?.("downloads")) ?? null; } catch { return null; }
+  })();
+
+  const autogrow = (el) => { el.style.height = "auto"; el.style.height = Math.min(el.scrollHeight, 180) + "px"; };
+  [seed, answer].forEach((el) => el.addEventListener("input", () => autogrow(el)));
+  [seed, answer].forEach((el) => el.addEventListener("keydown", (e) => {
+    if (e.key === "Enter" && !e.shiftKey) { e.preventDefault(); (el === seed ? startBtn : sendBtn).click(); }
+  }));
+
+  starters.addEventListener("click", (e) => {
+    const chip = e.target.closest(".chip");
+    if (!chip) return;
+    seed.value = chip.textContent.trim();
+    autogrow(seed);
+    startBtn.click();
+  });
+
+  const escapeHtml = (s) => String(s).replace(/[&<>"']/g, (c) =>
+    ({ "&":"&amp;", "<":"&lt;", ">":"&gt;", '"':"&quot;", "'":"&#39;" }[c]));
+
+  function addTurn(kind, who, text) {
+    const div = document.createElement("div");
+    div.className = "turn " + (kind === "q" ? "turn-q" : "turn-a");
+    div.innerHTML = '<span class="who">' + escapeHtml(who) + "</span>" + escapeHtml(text);
+    thread.appendChild(div);
+    return div;
+  }
+
+  function showThinking() {
+    const div = document.createElement("div");
+    div.className = "turn thinking";
+    div.innerHTML = '<i></i>Reading that';
+    thread.appendChild(div);
+    return div;
+  }
+
+  function paintProgress() {
+    const lit = Math.round((state.answers.length / TOTAL_ANSWERS) * BANDS.length);
+    [...progress.children].forEach((el, i) => {
+      el.style.background = i < lit ? BANDS[i].color : "var(--stone-200)";
+    });
+  }
+
+  function renderChips(list) {
+    answerChips.innerHTML = "";
+    (list || []).slice(0, 4).forEach((t, i) => {
+      const b = document.createElement("button");
+      b.type = "button"; b.className = "chip";
+      b.innerHTML = '<i class="chip-tick" style="background:' + BANDS[i % BANDS.length].color + '"></i>' + escapeHtml(t);
+      b.addEventListener("click", () => { answer.value = t; autogrow(answer); sendBtn.click(); });
+      answerChips.appendChild(b);
+    });
+  }
+
+  function goFallback(msg) {
+    if (state.live === false) return;
+    state.live = false;
+    fallbackNote.hidden = false;
+    fallbackNote.textContent = msg;
+  }
+
+  /* ── Ask Claude for the next question, or fall back to the script ── */
+  async function nextQuestion() {
+    if (state.answers.length >= TOTAL_ANSWERS) return buildMap();
+
+    const idx = state.answers.length - 1; // which scripted follow-up we're on
+    const thinking = showThinking();
+    answerBox.hidden = true;
+
+    let q = null;
+    const sample = await samplePromise;
+    if (sample && state.live !== false) {
+      const transcript = state.answers
+        .map((a, i) => (state.questions[i] ? "Q: " + state.questions[i] + "\n" : "") + "They said: " + a)
+        .join("\n\n");
+      const prompt =
+        PERSONA + "\n\nSo far in this session:\n" + transcript +
+        "\n\nAsk ONE next question. Rules:\n" +
+        "- One sentence, under 20 words. A facilitator's question, not a survey item.\n" +
+        "- It must follow from what they just said; use their own words back where it helps.\n" +
+        "- Probe whichever band you know least about. Never re-ask something answered.\n" +
+        "- Do not advise, summarise, or reassure. Just ask.\n\n" +
+        'Reply with only JSON: {"question": string, "chips": [string, string, string]}\n' +
+        '"chips" are three short first-person answers, under nine words each, a real leader might click.\n' +
+        'Example: {"question":"Who else would say that out loud?","chips":["Almost no one","My deputy, quietly","The whole staff"]}';
+      try {
+        const out = await sample.json(prompt, { modelTier: "quick", cache: false });
+        if (out && typeof out.question === "string" && out.question.trim()) {
+          q = { q: out.question.trim(), chips: Array.isArray(out.chips) ? out.chips.map(String) : [] };
+          state.live = true;
+        }
+      } catch (err) {
+        const code = err && err.code;
+        if (code === "not_granted" || code === "sampling_disabled" || code === "not_declared" || code === "capability_disabled") {
+          goFallback("Running the scripted diagnostic — the live read needs permission to use Claude.");
+        } else if (code === "rate_limited") {
+          goFallback("Claude is rate-limited right now, so this is the scripted diagnostic.");
+        } else {
+          goFallback("Couldn't reach Claude, so this is the scripted diagnostic.");
+        }
+      }
+    } else if (!sample) {
+      goFallback("Running the scripted diagnostic — a live read needs this page open in Claude.");
+    }
+
+    if (!q) q = SCRIPT[Math.min(idx, SCRIPT.length - 1)];
+
+    thinking.remove();
+    state.questions.push(q.q);
+    addTurn("q", "Gamut", q.q);
+    renderChips(q.chips);
+    answerBox.hidden = false;
+    answer.value = ""; autogrow(answer); answer.focus();
+  }
+
+  /* ── Heuristic read, used when Claude isn't answering ── */
+  function heuristicMap() {
+    const text = state.answers.join(" \n ");
+    const weight = Math.min(6, Math.floor(text.length / 90)); // how much they gave us
+
+    const scored = BANDS.map((b, i) => {
+      const hits = SIGNALS[b.key].reduce((n, re) => n + (re.test(text) ? 1 : 0), 0);
+      // Deterministic tiebreak so two bands never land on the same number.
+      const jitter = ((text.length + i * 37) % 7) - 3;
+      const score = Math.max(16, Math.min(88, 78 - hits * 13 - weight + jitter));
+      return { key: b.key, score, hits };
+    });
+
+    const ranked = scored.slice().sort((a, b) => a.score - b.score);
+    const NOTES = [
+      "The band you kept returning to, unprompted.",
+      "Bending around the band below it.",
+      "Under strain, but not the root of this.",
+      "Holding. Not what's stopping you.",
+      "Your strongest range right now.",
+    ];
+    ranked.forEach((b, i) => { b.note = NOTES[i]; });
+
+    const weakest = ranked[0];
+    const eng = ENGAGEMENTS[weakest.key];
+    const label = BANDS.find((b) => b.key === weakest.key).name.toLowerCase();
+    const second = BANDS.find((b) => b.key === ranked[1].key).name.toLowerCase();
+
+    return {
+      headline: "The weight is on " + label + ".",
+      read: "Across four answers, " + label + " is the band you returned to without being asked, and " +
+            second + " is bending around it. That pattern usually means the problem has already been " +
+            "diagnosed inside the building. What's missing is a room where someone is allowed to say so " +
+            "and decide.",
+      bands: scored.map((b) => ({ key: b.key, score: b.score, note: b.note })),
+      boardQuestions: [
+        "What have we refused to stop doing, and who actually decided that?",
+        "If we had to explain ourselves to someone who has never heard of us, what would we cut?",
+        "What is the first thing that would break if we grew twice as fast next year?",
+      ],
+      engagement: eng,
+    };
+  }
+
+  async function buildMap() {
+    answerBox.hidden = true;
+    const thinking = showThinking();
+    thinking.innerHTML = '<i></i>Reading your gamut';
+
+    let data = null;
+    const sample = await samplePromise;
+    if (sample && state.live !== false) {
+      const transcript = state.answers
+        .map((a, i) => (state.questions[i] ? "Q: " + state.questions[i] + "\n" : "") + "They said: " + a)
+        .join("\n\n");
+      const prompt =
+        PERSONA + "\n\nThe full session:\n" + transcript +
+        "\n\nProduce the Inertia Map. Reply with only JSON in this exact shape:\n" +
+        '{"headline": string, "read": string, "bands": [{"key": string, "score": number, "note": string}], ' +
+        '"boardQuestions": [string, string, string], "engagement": {"name": string, "why": string}}\n\n' +
+        "- headline: three to seven words naming the pattern. Sentence case. Example: \"Consensus without consequence.\"\n" +
+        "- read: two or three sentences. Specific to what they actually said, quoting their language. Name what is " +
+        "stuck and why. No reassurance, no hedging, no advice yet.\n" +
+        "- bands: all five, key one of purpose, alignment, momentum, relevance, capacity. score 0-100 is current " +
+        "STRENGTH, so low means stuck. Spread the scores; do not cluster them. note is at most twelve words.\n" +
+        "- boardQuestions: three questions to put to their board at the next meeting. One sentence each, " +
+        "uncomfortable, specific to them, answerable.\n" +
+        "- engagement.name must be exactly one of: \"Purpose distillation\", \"Facilitated board or executive " +
+        "session\", \"Overcoming Organizational Inertia workshop\". engagement.why is one sentence on why that one.";
+      try {
+        const out = await sample.json(prompt, { modelTier: "default", cache: false });
+        if (out && Array.isArray(out.bands) && out.bands.length) data = out;
+      } catch (err) {
+        const code = err && err.code;
+        goFallback(code === "not_granted"
+          ? "Scripted read — the live diagnostic needs permission to use Claude."
+          : "Couldn't reach Claude for the live read, so this is the scripted one.");
+      }
+    }
+
+    const live = !!data;
+    if (!data) data = heuristicMap();
+    thinking.remove();
+    renderMap(data, live);
+  }
+
+  function renderMap(data, live) {
+    $("mapHeadline").textContent = data.headline || "Your inertia map";
+    $("mapRead").textContent = data.read || "";
+
+    const chart = $("chart");
+    [...chart.querySelectorAll(".row,.rowline")].forEach((n) => n.remove());
+    const byKey = Object.create(null);
+    (data.bands || []).forEach((b) => { if (b && b.key) byKey[String(b.key).toLowerCase()] = b; });
+
+    const bars = [];
+    BANDS.forEach((band) => {
+      const found = byKey[band.key] || { score: 50, note: "" };
+      const score = Math.max(0, Math.min(100, Math.round(Number(found.score) || 0)));
+      const row = document.createElement("div");
+      row.className = "row";
+      row.innerHTML =
+        '<span class="name"><b style="background:' + band.color + '"></b>' + band.name + "</span>" +
+        '<span style="display:flex;gap:14px;align-items:center">' +
+          '<span class="track" style="flex:1"><span class="bar" style="background:' + band.color + '"></span></span>' +
+          '<span class="val">' + score + "</span>" +
+        "</span>";
+      chart.appendChild(row);
+      if (found.note) {
+        const line = document.createElement("p");
+        line.className = "rowline";
+        line.textContent = String(found.note);
+        chart.appendChild(line);
+      }
+      bars.push([row.querySelector(".bar"), score]);
+    });
+    requestAnimationFrame(() => bars.forEach(([el, s]) => { el.style.width = s + "%"; }));
+
+    const ol = $("boardQs");
+    ol.innerHTML = "";
+    (data.boardQuestions || []).slice(0, 3).forEach((q) => {
+      const li = document.createElement("li");
+      li.appendChild(document.createTextNode(String(q)));
+      ol.appendChild(li);
+    });
+
+    const eng = data.engagement || {};
+    $("engName").textContent = eng.name || "Facilitated board or executive session";
+    $("engWhy").textContent = eng.why || "";
+
+    mapNote.hidden = live;
+    if (!live) mapNote.textContent =
+      "This read was generated in your browser from keyword patterns, not by Claude. The live version writes " +
+      "the whole map from what you actually said.";
+
+    state.map = data;
+    sessionEl.hidden = true;
+    mapEl.hidden = false;
+    mapEl.scrollIntoView({ behavior: "smooth", block: "start" });
+
+    downloadsPromise.then((d) => { $("saveBtn").hidden = !d; });
+  }
+
+  function mapToMarkdown(d) {
+    const line = (b) => {
+      const band = BANDS.find((x) => x.key === b.key) || { name: b.key };
+      const n = Math.max(0, Math.min(100, Math.round(Number(b.score) || 0)));
+      const filled = Math.round(n / 5);
+      return "| " + band.name.padEnd(10) + " | " + String(n).padStart(3) + " | " +
+             "#".repeat(filled) + "-".repeat(20 - filled) + " | " + (b.note || "") + " |";
+    };
+    return [
+      "# Inertia Map — " + (d.headline || ""),
+      "",
+      "Generated in session zero at gamutpurpose.com",
+      "",
+      "## The read",
+      "", d.read || "", "",
+      "## Your gamut",
+      "",
+      "| Band | Score | | Note |",
+      "| --- | ---: | --- | --- |",
+      (d.bands || []).map(line).join("\n"),
+      "",
+      "## Three questions for your next board meeting",
+      "",
+      (d.boardQuestions || []).map((q, i) => (i + 1) + ". " + q).join("\n"),
+      "",
+      "## Where Gamut would start",
+      "",
+      "**" + ((d.engagement || {}).name || "") + "** — " + ((d.engagement || {}).why || ""),
+      "",
+      "---",
+      "",
+      "Gamut Purpose Partners — strategy advisers to nonprofits and cause-minded companies.",
+      "Book thirty minutes: hello@gamutpurpose.com",
+      "",
+      "## What you said",
+      "",
+      state.answers.map((a, i) => "> " + (state.questions[i] ? state.questions[i] + "\n> \n> " : "") + a).join("\n\n"),
+      "",
+    ].join("\n");
+  }
+
+  $("saveBtn").addEventListener("click", async () => {
+    const d = await downloadsPromise;
+    if (!d || !state.map) return;
+    const btn = $("saveBtn"), was = btn.textContent;
+    btn.disabled = true;
+    try {
+      await d.save({ filename: "gamut-inertia-map.md", data: mapToMarkdown(state.map) });
+      btn.textContent = "Saved";
+    } catch (err) {
+      btn.textContent = (err && err.code === "declined") ? was : "Couldn't save";
+    } finally {
+      btn.disabled = false;
+      setTimeout(() => { btn.textContent = was; }, 2600);
+    }
+  });
+
+  async function submit(text) {
+    if (state.busy) return;
+    const v = String(text || "").trim();
+    if (!v) return;
+    state.busy = true;
+    startBtn.disabled = sendBtn.disabled = true;
+    state.answers.push(v);
+    addTurn("a", "You", v);
+    answerChips.innerHTML = "";
+    paintProgress();
+    try { await nextQuestion(); }
+    finally {
+      state.busy = false;
+      startBtn.disabled = sendBtn.disabled = false;
+    }
+  }
+
+  startBtn.addEventListener("click", () => {
+    const v = seed.value.trim();
+    if (!v) { seed.focus(); return; }
+    hero.hidden = true;
+    sessionEl.hidden = false;
+    mapEl.hidden = true;
+    thread.innerHTML = "";
+    state.answers = []; state.questions = []; state.map = null;
+    state.questions.push("What's the hardest thing about your institution right now?");
+    addTurn("q", "Gamut", "What's the hardest thing about your institution right now?");
+    sessionEl.scrollIntoView({ behavior: "smooth", block: "start" });
+    submit(v);
+  });
+
+  sendBtn.addEventListener("click", () => {
+    const v = answer.value.trim();
+    if (!v) { answer.focus(); return; }
+    answer.value = ""; autogrow(answer);
+    submit(v);
+  });
+
+  $("restartBtn").addEventListener("click", () => {
+    mapEl.hidden = true; sessionEl.hidden = true; hero.hidden = false;
+    seed.value = ""; autogrow(seed);
+    state.answers = []; state.questions = []; state.map = null;
+    paintProgress();
+    hero.scrollIntoView({ behavior: "smooth", block: "start" });
+    seed.focus();
+  });
+
+  ["navCta", "ctaStart"].forEach((id) => $(id).addEventListener("click", () => {
+    if (!hero.hidden) setTimeout(() => seed.focus(), 420);
+  }));
+
+  paintProgress();
+})();
+</script>

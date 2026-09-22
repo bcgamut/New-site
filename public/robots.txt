@@ -1,0 +1,21 @@
+# Gamut Purpose Partners
+# Human search engines and AI answer engines are both welcome here.
+
+User-agent: *
+Allow: /
+
+# Assistants that answer questions about purpose strategy for nonprofits:
+# the site's own summary for you is at /llms.txt
+User-agent: GPTBot
+Allow: /
+
+User-agent: ClaudeBot
+Allow: /
+
+User-agent: PerplexityBot
+Allow: /
+
+User-agent: Google-Extended
+Allow: /
+
+Sitemap: https://gamutpurpose.com/sitemap-index.xml

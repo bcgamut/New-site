@@ -1,0 +1,21 @@
+{
+  "name": "gamutpurpose-site",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "Gamut Purpose Partners — agentic website",
+  "scripts": {
+    "dev": "netlify dev",
+    "build": "astro build",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@anthropic-ai/sdk": "^0.127.0",
+    "astro": "^5.14.0",
+    "zod": "^3.25.0"
+  },
+  "devDependencies": {
+    "@netlify/functions": "^4.2.7",
+    "typescript": "^5.9.0"
+  }
+}
