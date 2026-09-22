@@ -79,33 +79,82 @@ export const SERVICES = [
 
 export const PEOPLE = [
   {
-    name: "Michael Brooks",
-    role: "Co-founder and partner",
+    name: "Brian Cox",
+    role: "Partner and co-founder",
     bio:
-      "Michael draws on leading legacy nonprofits and founding startups. He was Chief " +
-      "Strategy & Digital Officer at ChildFund International and Senior Vice President of " +
-      "Strategy & Innovation at United Way Worldwide, and has facilitated more than 200 " +
-      "inclusive design sessions and workshops — from boards and executive teams to youth " +
-      "social entrepreneurs.",
+      "Brian was a transformation executive at Salesforce and is a strategic adviser to UN " +
+      "agencies including UNICEF, UNHCR and the World Food Programme. His experience spans " +
+      "major gifts fundraising, digital marketing leadership at United Way Worldwide, and " +
+      "organisational change.",
     expertise: [
-      "Strategy", "Innovation", "Business model design", "Network partnership",
-      "Constituent engagement", "Digital transformation", "Participatory design",
-      "Social enterprise", "Corporate-nonprofit partnerships", "Facilitation",
+      "Transformational change strategy", "Corporate partnerships",
+      "Building organizational culture", "Major gifts fundraising",
+      "Digital marketing leadership",
+    ],
+    education: [],
+    /** The brand book asks for warm and human. This is true and it is his. */
+    note: "A beekeeper, which is its own argument about healthy systems.",
+  },
+  {
+    name: "Michael Brooks",
+    role: "Partner and co-founder",
+    bio:
+      "Michael was Chief Strategy & Digital Officer at ChildFund International and Senior " +
+      "Vice President of Strategy & Innovation at United Way Worldwide. He has facilitated " +
+      "more than 150 inclusive design workshops — with the Forest Service, the EPA, boards " +
+      "and executive teams.",
+    expertise: [
+      "Strategy", "Organizational design", "Constituent engagement",
+      "Digital transformation", "Innovation", "Participatory design", "Facilitation",
     ],
     education: ["MPA, George Washington University", "MDiv, Yale University"],
+    note: "",
   },
 ] as const;
 
 /**
- * TODO(brian): these are pulled from engagement documents in the Gamut design
- * system. Confirm which may be named publicly before this ships — some client
- * agreements restrict attribution.
+ * How Gamut describes itself in its own proposals. Worth more than anything
+ * invented: this is the claim that actually wins work.
  */
-export const ENGAGEMENTS = [
-  { client: "CRS",                    work: "Strategic planning" },
-  { client: "PHI",                    work: "Strategic plan; organisational and team development" },
-  { client: "Bishop Sullivan Center", work: "Strategy" },
-  { client: "Our Stomping Ground",    work: "Value proposition; strategy" },
-  { client: "TPCA",                   work: "Strategic plan" },
-  { client: "Readers 2 Leaders",      work: "Strategy" },
+export const DIFFERENTIATOR =
+  "Uncommon among strategy consultants, Gamut has deep experience in operations and working " +
+  "inside national and international nonprofits. Our team has worked in full-time leadership " +
+  "roles in nearly every aspect of not-for-profit operations — from field delivery to policy " +
+  "advocacy to philanthropy — giving us a practical understanding of what makes strategy work.";
+
+export const BELIEF =
+  "How we go about strategic planning shapes what strategy emerges, and who feels ownership " +
+  "of it. Every strategy project is also a culture project.";
+
+/** Clients Gamut already names in its own proposals. */
+export const CLIENTS = [
+  "Blood Cancer United (formerly Leukemia & Lymphoma Society)",
+  "United Way Worldwide",
+  "ChildFund International",
+  "Mothers Against Drunk Driving",
+  "North American Association for Environmental Education",
+  "UNICEF", "UNHCR", "World Food Programme", "World Health Organization",
+  "Congressional Research Service",
+] as const;
+
+/** Measured outcomes from delivered engagements. No invented numbers anywhere. */
+export const PROOF = [
+  { figure: "440+", label: "Professionals engaged in a single strategy process.", client: "Blood Cancer United" },
+  { figure: "+17pts", label: "Rise in confidence in leadership direction after the engagement.", client: "Blood Cancer United" },
+  { figure: "94%", label: "Staff who said they understand the vision and strategy.", client: "Blood Cancer United" },
+  { figure: "150+", label: "Workshops facilitated with boards, executives and teams.", client: "" },
+] as const;
+
+/**
+ * Real client voices, from Gamut's proposal library.
+ * TODO(brian): these come from a document footed "Confidential". Confirm each
+ * is cleared for public attribution before launch.
+ */
+export const VOICES = [
+  { quote: "In the years I've been here, we've never had a conversation like this.",
+    who: "Chief Scientific Officer", org: "Leukemia & Lymphoma Society" },
+  { quote: "We are becoming human to each other.",
+    who: "Senior Vice President, Public Policy", org: "Leukemia & Lymphoma Society" },
+  { quote: "I had no idea how we'd get from the ocean to the lake to the pond to the puddle to the glass of water. You exceeded all expectations.",
+    who: "Head of People and Culture", org: "Mothers Against Drunk Driving" },
 ] as const;

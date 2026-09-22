@@ -182,6 +182,24 @@ footer ul{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;
 footer ul a{color:var(--white)}
 footer ul a:hover{color:var(--gold)}
 .fbase{margin-top:40px;padding-top:24px;border-top:1px solid var(--border-on-dark);display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;font-family:var(--font-mono);font-size:12.5px;color:var(--text-on-dark-muted)}
+
+/* ── proof stats ─────────────────────────────────────────── */
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:26px;margin-top:48px}
+@media(max-width:900px){.stats{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:520px){.stats{grid-template-columns:1fr}}
+.stat .fig{font-family:var(--font-display);font-weight:800;font-size:clamp(40px,5vw,62px);line-height:1;letter-spacing:-.03em;display:block;font-variant-numeric:tabular-nums}
+.stat .fig i{font-style:normal;font-size:.45em;letter-spacing:-.01em;margin-left:1px}
+.stat p{font-size:15.5px;line-height:1.5;color:var(--text-body);margin-top:14px;max-width:28ch}
+.stat .src{font-family:var(--font-mono);font-size:11.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--stone-400);display:block;margin-top:10px}
+/* ── pull quote + partners ───────────────────────────────── */
+.pull{font-family:var(--font-serif);font-style:italic;font-weight:400;font-size:clamp(26px,4.4vw,52px);line-height:1.22;letter-spacing:-.015em;color:var(--white);margin:22px 0 0;max-width:18ch}
+.partners{display:grid;grid-template-columns:1fr 1fr;gap:clamp(24px,4vw,56px);margin-top:clamp(48px,6vw,80px);padding-top:40px;border-top:1px solid var(--border-on-dark)}
+@media(max-width:820px){.partners{grid-template-columns:1fr;gap:40px}}
+.partner .edge{width:36px;height:5px;border-radius:3px;display:block;margin-bottom:18px}
+.partner h3{font-size:clamp(22px,2.6vw,28px);color:var(--white);letter-spacing:-.02em}
+.partner .ptitle{font-family:var(--font-mono);font-size:11.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--text-on-dark-muted);margin:8px 0 16px}
+.partner p{font-size:16px;line-height:1.6;color:var(--text-on-dark-muted);max-width:44ch}
+.partner .pnote{font-family:var(--font-serif);font-style:italic;font-size:16.5px;color:var(--stone-400);margin-top:14px}
 </style>
 
 <div class="proto"><div class="wrap"><b>Prototype</b><span>Gamut agentic site &middot; concept for internal review</span></div></div>
@@ -313,35 +331,54 @@ footer ul a:hover{color:var(--gold)}
     </div>
   </div></section>
 
+  <!-- ══ PROOF ══ -->
+  <section class="band"><div class="wrap">
+    <p class="eyebrow" style="--tick:var(--electric)">The proof</p>
+    <h2 class="sec-h">Every strategy project is also a culture project.</h2>
+    <p class="lede" style="margin-top:18px">Uncommon among strategy consultants, we have worked <em style="font-style:normal;color:var(--ink);font-weight:600">inside</em> national and international nonprofits &mdash; field delivery, policy advocacy, philanthropy. We know what makes a strategy survive contact with an operating calendar.</p>
+    <div class="stats">
+      <div class="stat"><span class="fig" style="color:var(--coral)">440+</span><p>Professionals engaged in a single strategy process.</p><span class="src">Blood Cancer United</span></div>
+      <div class="stat"><span class="fig" style="color:var(--gold)">+17<i>pts</i></span><p>Rise in confidence in leadership direction after the engagement.</p><span class="src">Blood Cancer United</span></div>
+      <div class="stat"><span class="fig" style="color:var(--electric)">94<i>%</i></span><p>Staff who said they understand the vision and strategy.</p><span class="src">Blood Cancer United</span></div>
+      <div class="stat"><span class="fig" style="color:var(--teal)">150+</span><p>Workshops facilitated with boards, executives and teams.</p><span class="src">Across the practice</span></div>
+    </div>
+  </div></section>
+
   <!-- ══ PRACTICE ══ -->
   <section class="band dark" id="practice"><div class="wrap">
     <p class="eyebrow" style="--tick:var(--coral)">The practice</p>
-    <div class="bio">
-      <div>
-        <blockquote>&ldquo;A strategic plan nobody can argue with is a plan nobody will act on.&rdquo;</blockquote>
-        <p style="font-family:var(--font-mono);font-size:12.5px;letter-spacing:.12em;text-transform:uppercase;margin-top:22px">Michael Brooks &middot; Co-founder</p>
-        <div class="ticks" style="margin-top:20px">
-          <i style="background:var(--coral)"></i><i style="background:var(--gold)"></i><i style="background:var(--electric)"></i><i style="background:var(--indigo)"></i><i style="background:var(--teal)"></i>
-        </div>
+    <blockquote class="pull">&ldquo;In the years I&rsquo;ve been here, we&rsquo;ve never had a conversation <span style="color:var(--gold)">like this</span>.&rdquo;</blockquote>
+    <p style="font-family:var(--font-mono);font-size:12.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--text-on-dark-muted);margin-top:22px">Chief Scientific Officer &middot; Leukemia &amp; Lymphoma Society</p>
+    <div class="ticks" style="margin-top:26px">
+      <i style="background:var(--coral)"></i><i style="background:var(--gold)"></i><i style="background:var(--electric)"></i><i style="background:var(--indigo)"></i><i style="background:var(--teal)"></i>
+    </div>
+
+    <div class="partners">
+      <div class="partner">
+        <span class="edge" style="background:var(--coral)"></span>
+        <h3>Brian Cox</h3>
+        <p class="ptitle">Partner and co-founder</p>
+        <p>Transformation executive at Salesforce. Strategic adviser to UN agencies including UNICEF, UNHCR and the World Food Programme. Major gifts fundraising, digital marketing leadership at United Way Worldwide, and organisational change.</p>
+        <p class="pnote">A beekeeper &mdash; which is its own argument about healthy systems.</p>
       </div>
-      <div class="creds">
-        <div class="cred"><b style="background:var(--coral)"></b><span>Co-founder and partner, <strong style="color:var(--white)">Gamut Purpose Partners</strong> &mdash; strategy advisers to nonprofits and cause-minded companies.</span></div>
-        <div class="cred"><b style="background:var(--gold)"></b><span>Former Chief Strategy &amp; Digital Officer, <strong style="color:var(--white)">ChildFund International</strong>.</span></div>
-        <div class="cred"><b style="background:var(--electric)"></b><span>Former Senior Vice President, Strategy &amp; Innovation, <strong style="color:var(--white)">United Way Worldwide</strong>.</span></div>
-        <div class="cred"><b style="background:var(--indigo)"></b><span>More than <strong style="color:var(--white)">200 facilitated design sessions</strong> &mdash; boards, executive teams, youth social entrepreneurs.</span></div>
-        <div class="cred"><b style="background:var(--teal)"></b><span>MPA, George Washington University &middot; MDiv, Yale.</span></div>
+      <div class="partner">
+        <span class="edge" style="background:var(--gold)"></span>
+        <h3>Michael Brooks</h3>
+        <p class="ptitle">Partner and co-founder</p>
+        <p>Chief Strategy &amp; Digital Officer at ChildFund International and Senior Vice President of Strategy &amp; Innovation at United Way Worldwide. More than 150 inclusive design workshops &mdash; with the Forest Service, the EPA, boards and executive teams.</p>
+        <p class="pnote">MPA, George Washington &middot; MDiv, Yale.</p>
       </div>
     </div>
   </div></section>
 
   <!-- ══ WORK ══ -->
   <section class="band"><div class="wrap">
-    <p class="eyebrow" style="--tick:var(--teal)">Recent engagements</p>
-    <h2 class="sec-h">Strategic plans, value propositions, and the team work that makes them stick.</h2>
+    <p class="eyebrow" style="--tick:var(--teal)">Who we have done this with</p>
+    <h2 class="sec-h">Institutions that intend to last.</h2>
     <div class="work">
-      <span>CRS</span><span>PHI</span><span>Bishop Sullivan Center</span><span>Our Stomping Ground</span><span>TPCA</span><span>Readers 2 Leaders</span>
+      <span>Blood Cancer United</span><span>United Way Worldwide</span><span>ChildFund International</span><span>Mothers Against Drunk Driving</span><span>NAAEE</span><span>UNICEF</span><span>UNHCR</span><span>World Food Programme</span><span>World Health Organization</span><span>Congressional Research Service</span>
     </div>
-    <p class="meta" style="margin-top:20px">Strategic planning &middot; Value proposition &middot; Organizational &amp; team development &middot; Facilitation</p>
+    <p class="meta" style="margin-top:22px">Strategic planning &middot; Theory of change &middot; Purpose distillation &middot; Facilitation &middot; Organizational design</p>
   </div></section>
 
   <!-- ══ CTA ══ -->

@@ -114,13 +114,23 @@ italic** — the "luminary voice" the brand book describes — and the visitor a
 Hanken Grotesk. The conversation is typographically a dialogue between the
 institution and the adviser.
 
+## Sources
+
+Bios, clients, proof figures and client quotes come from Gamut's own proposal
+library in Drive (`American-Forests-Proposal-BC Improved.docx` and siblings).
+Nothing on the site is invented — there are no placeholder statistics anywhere.
+
+**Deliberately not carried across from those proposals:** reference contacts and
+their personal email addresses, partner phone numbers, and rate-card and pro-bono
+pricing. Those belong in a proposal, not on a public site.
+
 ## Open questions
 
-- **Client names.** `ENGAGEMENTS` in `practice.ts` is drawn from engagement documents
-  in the design system. Confirm which may be named publicly before launch.
-- **Second partner.** Only Michael's bio is written up; the practice page needs the
-  rest of the team.
-- **The pull-quote** on the practice section is written in Gamut's voice, not sourced
-  from Michael. It needs his sign-off or replacement.
+- **Client-quote clearance.** `VOICES` in `practice.ts` comes from a document
+  footed "Confidential". Confirm each quote is cleared for public attribution.
+- **Michael's workshop count.** The Dec 2025 proposal says 150+; his LinkedIn says
+  200+. The site uses 150+. Confirm which is current.
 - **Fonts.** Hanken Grotesk / Newsreader / Spline Sans Mono are the design system's
   open-source substitutions, not confirmed brand faces.
+- **The five bands** are my framing of Gamut's diagnostic, not an existing Gamut
+  framework. If there's a real internal model, the bands should map to it.
